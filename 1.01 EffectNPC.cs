@@ -9,7 +9,7 @@
 //smalltalk, equip, emotes, changing of itemnames and spellcast at the end of process
 //plus i added changing of speed and color
 //what could be done is trimming the prefixes from the name instead of looking at the db, but i dont know how to do that :)
-
+//webhook test
 using System;
 using DOL;
 using DOL.GS;
