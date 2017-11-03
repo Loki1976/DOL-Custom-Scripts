@@ -51,11 +51,11 @@ namespace DOL.GS.Scripts
 		public const bool bEnabled = true; // Set to false to disable scripts entirely.
 		public const bool bPvEOnly = true;  // Set to false if you want Dreaded Seals to work on all server types
 		public const bool bPopulateDB = true; // Set to false if you don't want the script populating the DB
-		public const bool bHighStackCount = true; // Set to true if you want Glowing Dreaded Seals to have high count rates.  Removes the need to craft denser seals.
+		public const bool bHighStackCount = false; // Set to true if you want Glowing Dreaded Seals to have high count rates.  Removes the need to craft denser seals.
 		
 		// Starting value when the script adds server properties to the DB
 		// Server properties take priority, but these will be used if the script adds server properties or if server properties are not available.
-		public const bool bUseServerSettings = false; // Set to false if you want to use the values below without putting server properties in the DB.
+		public const bool bUseServerSettings = true; // Set to false if you want to use the values below without putting server properties in the DB.
 		public const int iStartingLevel = 25; // The level at which mobs start dropping seals.  Livelike is 25.
 		public const int iBaseChance = 25; // The base chance of a mob to drop a seal in 1/100ths of a percent.  Livelike is 25.
 		public const int iGrowthChance = 25; // The amount drop chance growth with each level of the mob in 1/100ths of a percent.  Livelike is 25. 
