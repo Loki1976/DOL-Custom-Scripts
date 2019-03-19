@@ -752,7 +752,7 @@ namespace DOL.GS.Scripts
         public override bool AddToWorld()
         {
             Level = 50;
-            Model = 666;
+            Model = 1623;
             new RegionTimer(this, new RegionTimerCallback(Timer), PlayerCheck);
             return base.AddToWorld();
 
