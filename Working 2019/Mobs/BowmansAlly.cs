@@ -36,7 +36,7 @@ namespace DOL.GS.Scripts
             }
 
             Inventory = template.CloseTemplate();
-            Flags = 16;	// Peace flag.
+            Flags |= GameNPC.eFlags.PEACE;
             return base.AddToWorld();
         }
 		public override bool Interact(GamePlayer player)
@@ -65,7 +65,7 @@ namespace DOL.GS.Scripts
             if ((player.BountyPoints >= 0) && (item.Object_Type == 9) || (item.Object_Type == 15) || (item.Object_Type == 18))
             {
                 item.Name = "Bolstered" + item.Name;
-                item.CrafterName = this.Name;
+ // Fix this at later date               item.CrafterName = this.Name;
                 item.Bonus1 = 0;
                 item.Bonus1Type = 0;
                 item.Bonus2 = 0;
