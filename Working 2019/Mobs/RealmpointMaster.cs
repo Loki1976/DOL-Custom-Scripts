@@ -49,7 +49,7 @@ namespace DOL.GS
 
         public override bool AddToWorld()
         {
-            Flags |= (uint)eFlags.PEACE;
+            Flags |= eFlags.PEACE;
             Name = "Realmpoint Master";
             GuildName = "Holoshard RvR";
             return base.AddToWorld();
