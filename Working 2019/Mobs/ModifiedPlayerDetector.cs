@@ -19,7 +19,7 @@ namespace DOL.GS.Scripts
         public ModdedPlayerDetector()
             : base()
         {
-            Flags |= (uint)GameNPC.eFlags.PEACE;
+            Flags |= GameNPC.eFlags.PEACE;
         }
         public const int INTERVAL = 15 * 1000; 
         
@@ -216,7 +216,7 @@ namespace DOL.GS.Scripts
             }
 
             Inventory = template.CloseTemplate();
-            Flags = 16;	// Peace flag.
+            Flags |= GameNPC.eFlags.PEACE;
             return base.AddToWorld();
         
             //if (success) new RegionTimer(this, new RegionTimerCallback(Timer), INTERVAL);

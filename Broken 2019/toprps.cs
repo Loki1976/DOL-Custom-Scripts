@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using DOL.GS.PacketHandler;
 using DOL.Database;
+using DOL.GS.Commands;
 
 namespace DOL.GS.Scripts
 {
@@ -17,7 +18,7 @@ namespace DOL.GS.Scripts
         private static ArrayList list = new ArrayList();
         private static long LastUpdatedTime = 0; //When was the list last updated?
         private static long TimeToChange = 0;  //What region time will it be when it's time to refresh list?
-        public int OnCommand(GameClient client, string[] args)
+        public void OnCommand(GameClient client, string[] args)
         {
             if (LastUpdatedTime == 0) { LastUpdatedTime = client.Player.CurrentRegion.Time; }
             TimeToChange = (LastUpdatedTime + 900000); //15 minutes between list refreshing
