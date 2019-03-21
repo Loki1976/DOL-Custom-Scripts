@@ -2466,13 +2466,13 @@ namespace DOL.GS.Trainer
                     if (curSecondStage)
                         curSecondStage = false;
                     else
-                        player.SkillSpecialtyPoints += player.CharacterClass.SpecPointsMultiplier * i / 20;
+                         player.AddSpecialization += player.CharacterClass.SpecPointsMultiplier * i / 20;
                 }
             }
 
             #endregion
 
-            player.UpdateSpellLineLevels(true);
+            player.RefreshSpecDependantSkills(true);
             player.Out.SendUpdatePlayerSkills();
             player.Out.SendUpdatePlayer();
             player.Out.SendUpdatePoints();

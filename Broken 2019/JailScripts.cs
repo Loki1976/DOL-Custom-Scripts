@@ -22,7 +22,7 @@ namespace DOL.GS.Commands
 
     public class OnJail : AbstractCommandHandler, ICommandHandler
     {
-        private Character GetPlayerFromDB(string Pname)
+        private DataBase.Character GetPlayerFromDB(string Pname)
         {
             DataObject[] m_objs = GameServer.Database.SelectObjects(typeof(Character), "Name = '" + GameServer.Database.Escape(Pname) + "'");
             foreach (DataObject ob in m_objs) { return (Character)ob; }

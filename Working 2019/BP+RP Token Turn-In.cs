@@ -30,7 +30,7 @@ namespace DOL.GS
 
         public override bool AddToWorld()
         {
-            Flags = 16;	// Peace flag.
+            Flags |= GameNPC.eFlags.PEACE;
             return base.AddToWorld();
         }
 
@@ -52,7 +52,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainBountyPoints(500, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -61,7 +61,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainBountyPoints(1000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -70,7 +70,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainBountyPoints(5000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -79,7 +79,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainBountyPoints(10000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -88,7 +88,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainBountyPoints(50000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -97,7 +97,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainBountyPoints(100000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -106,7 +106,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainBountyPoints(500000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -115,7 +115,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainBountyPoints(1000000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -124,7 +124,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainBountyPoints(2000000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -133,7 +133,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainBountyPoints(5000000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -142,7 +142,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainRealmPoints(500, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -151,7 +151,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainRealmPoints(1000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -160,7 +160,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainRealmPoints(5000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -169,7 +169,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainRealmPoints(10000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -178,7 +178,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainRealmPoints(50000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -187,7 +187,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainRealmPoints(100000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -196,7 +196,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainRealmPoints(500000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -205,7 +205,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainRealmPoints(1000000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -214,7 +214,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainRealmPoints(2000000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }
@@ -223,7 +223,7 @@ namespace DOL.GS
                     t.Out.SendMessage("Excellent, you've found a token!\n" +
                     "Here, please take your reward!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
                     t.GainRealmPoints(5000000, false);
-                    t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                    t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     t.SaveIntoDatabase();
 
                 }

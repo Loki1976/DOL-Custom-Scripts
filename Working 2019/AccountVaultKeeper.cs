@@ -121,7 +121,7 @@ namespace DOL.GS
             dbh.GuildHouse = false;
             dbh.HouseNumber = player.ObjectID;
             dbh.Name = player.Name + "'s House";
-            dbh.OwnerID = player.DBCharacter.ObjectId;
+            dbh.OwnerID = player.ObjectId;
             dbh.RegionID = player.CurrentRegionID;
 
             CurrentHouse = new House(dbh);

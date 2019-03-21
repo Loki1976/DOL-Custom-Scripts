@@ -321,7 +321,7 @@ namespace DOL.GS.Scripts
 				}
 				else if ( text == "YES" )
 				{
-                    DOLCharacters fromchar = player.DBCharacter;
+                    DOLCharacters fromchar = player.PlayerCharacter;
                     DOLCharacters tochar = (DOLCharacters)m_chars[player];
 					
 					#region some checks before
@@ -372,11 +372,11 @@ namespace DOL.GS.Scripts
 					if ( TRANSFER_REALM )
 					{
 						tochar.RealmLevel = fromchar.RealmLevel;
-//						tochar.RealmSpecialtyPoints = fromchar.RealmLevel;
+						tochar.RealmSpecialtyPoints = fromchar.RealmLevel;
 						tochar.RealmPoints = fromchar.RealmPoints;
 						player.RealmPoints = 0;
 						player.RealmLevel = 0;
-//						player.RealmSpecialtyPoints = 0;
+						player.RealmSpecialtyPoints = 0;
 						player.RespecRealm();
 					}
 					#endregion
@@ -420,7 +420,7 @@ namespace DOL.GS.Scripts
                             if (TRANSFER_REALM)
                             {
                                 character.RealmLevel = tochar.RealmLevel;
- //                               character.RealmSpecialtyPoints = tochar.RealmLevel;
+                                character.RealmSpecialtyPoints = tochar.RealmLevel;
                                 character.RealmPoints = tochar.RealmPoints;
                             }
                         }
@@ -433,7 +433,7 @@ namespace DOL.GS.Scripts
                             if (TRANSFER_REALM)
                             {
                                 character.RealmLevel = player.RealmLevel;
-  //                              character.RealmSpecialtyPoints = player.RealmLevel;
+                                character.RealmSpecialtyPoints = player.RealmLevel;
                                 character.RealmPoints = player.RealmPoints;
                             }
                         }
@@ -452,7 +452,7 @@ namespace DOL.GS.Scripts
 					}
 					#endregion
 
-					return Returning(player, "Ready...\nAnd now go and fight on Neon PvP.", true);
+					return Returning(player, "Ready...\nAnd now go and fight on Ullandra!", true);
 				}
 				else if ( text == "NO" )
 				{
