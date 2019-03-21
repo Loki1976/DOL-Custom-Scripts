@@ -35,7 +35,7 @@ namespace DOL.GS.Scripts
             }
 
             Inventory = template.CloseTemplate();
-            Flags = 16;	// Peace flag.
+            Flags |= GameNPC.eFlags.PEACE;
             return base.AddToWorld();
         }
         private ushort spell = 208; //Spell Casted
@@ -60,7 +60,7 @@ namespace DOL.GS.Scripts
                     {
                         t.AddSpellLine(SkillBase.GetSpellLine("Champion Abilities"));
                         t.Out.SendMessage("I have given you your first Champion Abilities!", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.UpdateSpellLineLevels(true);
+                        t.RefreshSpecDependantSkills(true);
                         t.Out.SendUpdatePlayerSkills();
                         t.Out.SendUpdatePlayer();
                         t.UpdatePlayerStatus();
