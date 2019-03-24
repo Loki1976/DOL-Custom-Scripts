@@ -10,7 +10,7 @@ namespace DOL.GS.Scripts
     /// <summary>
     /// Represents an in-game Game NPC
     /// </summary>
-    public class PortMob : GameNPC
+    public class BPPortMob : GameNPC
     {
         #region Variables/Properties
 
