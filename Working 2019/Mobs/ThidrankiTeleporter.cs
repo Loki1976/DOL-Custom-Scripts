@@ -18,7 +18,7 @@ namespace DOL.GS.Scripts
             GuildName = "PvP Teleporter";
             Level = 50;
             Size = 60;
-            Flags = 16;	// Peace flag.
+            Flags |= GameNPC.eFlags.PEACE;
             return base.AddToWorld();
         }
 		public override bool Interact(GamePlayer player)

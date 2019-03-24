@@ -10,7 +10,7 @@ namespace DOL.GS.Scripts
     /// <summary>
     /// Represents an in-game Game NPC
     /// </summary>
-    public class PortMob : GameNPC
+    public class BPPortMob : GameNPC
     {
         #region Variables/Properties
 
@@ -44,7 +44,7 @@ namespace DOL.GS.Scripts
         /// <summary>
         /// Gets or sets the base maxspeed of this living
         /// </summary>
-        public override int MaxSpeedBase
+  /* Fix later Zycron      public override int MaxSpeedBase
         {
             get
             {
@@ -55,6 +55,7 @@ namespace DOL.GS.Scripts
                 m_maxSpeedBase = value;
             }
         }
+	*/
 
         /// <summary>
         /// Melee Attack Range.
