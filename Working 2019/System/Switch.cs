@@ -21,7 +21,7 @@ namespace DOL.GS.Scripts.Commands
 
             if (args.Length != 1)
             {
-                item = player.Inventory.GetItem(eInventorySlot.FirstBackpack);
+                var items = player.Inventory.GetItemRange(eInventorySlot.FirstBackpack, eInventorySlot.LastBackpack);
 
                 if (item != null)
                 {

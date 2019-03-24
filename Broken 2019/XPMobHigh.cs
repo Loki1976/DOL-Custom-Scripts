@@ -17,7 +17,7 @@ namespace DOL.GS.Scripts
             GamePlayer player = killer as GamePlayer;
             if (player is GamePlayer && IsWorthReward)
 
-            player.GainExperience((this.Level * 30000000));
+            player.GainExperience((GameLiving.eXPSource.Other, * 30000000));
             player.SaveIntoDatabase();
             player.Out.SendUpdatePlayer();
 

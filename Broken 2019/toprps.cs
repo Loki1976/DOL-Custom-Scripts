@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using DOL.GS.PacketHandler;
 using DOL.Database;
+using DOL.Language;
 using DOL.GS.Commands;
 
 namespace DOL.GS.Scripts
@@ -9,10 +11,11 @@ namespace DOL.GS.Scripts
     
     [CmdAttribute(
        "&toprps",
-       (uint)ePrivLevel.Player,
+        new string[] { "&rp" },
+        ePrivLevel.Player,
        "Displays the Top 20 Players with the most Realm Points.",
        "/toprps")]
-    public class TopHeroCommandHandler : ICommandHandler
+    public class OnlineCommandHandler : AbstractCommandHandler, ICommandHandler
     {
         private static bool hasbeenrun = false; //Keep track of if it's the first time it's been called
         private static ArrayList list = new ArrayList();
