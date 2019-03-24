@@ -36,7 +36,7 @@ namespace DOL.GS.Scripts
             }
 
             Inventory = template.CloseTemplate();
-            Flags = 16;	// Peace flag.
+            Flags |= eFlags.PEACE;
             return base.AddToWorld();
         }
 		/// <summary>
@@ -390,8 +390,8 @@ namespace DOL.GS.Scripts
             {
                 player.Out.SendMessage(this.Name + " says, \"" + messageToPlayer + "\"", eChatType.CT_System, eChatLoc.CL_PopupWindow);
                 player.Out.SendMessage("You have been upgraded to the " + player.CharacterClass.Name + " class!", eChatType.CT_Important, eChatLoc.CL_SystemWindow);
-                player.CharacterClass.OnLevelUp(player);
-                player.UpdateSpellLineLevels(true);
+                player.CharacterClass.OnLevelUp();
+                player.RefreshSpecDependantSkills(true);
                 //player.RefreshSpecDependendSkills();
                 //player.Out.SendUpdatePlayerSpells();
                 player.Out.SendUpdatePlayerSkills();
