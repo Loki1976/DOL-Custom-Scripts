@@ -275,18 +275,21 @@ namespace DOL.GS.Scripts
                 if (m_basestr == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = false;
+                    spell.AllowAdd = true;
                     spell.CastTime = 0;
                     spell.ClientEffect = 1457;
                     spell.Icon = 1457;
+					spell.TooltipId = 9002;
                     spell.Duration = 65535;
                     spell.Value = 67;
                     spell.Name = "Strength Buff";
                     spell.Description = "Increases target's Strength.";
                     spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100002;
+                    spell.SpellID = 2000002;
                     spell.Target = "Realm";
                     spell.Type = "StrengthBuff";
+					spell.PackageID = "BuffBotSpells";
+                    GameServer.Database.AddObject(spell);
                     spell.EffectGroup = 4;
                     m_basestr = new Spell(spell, 50);
                 }
@@ -304,18 +307,21 @@ namespace DOL.GS.Scripts
                 if (m_basecon == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = false;
+                    spell.AllowAdd = true;
                     spell.CastTime = 0;
                     spell.ClientEffect = 1486;
                     spell.Icon = 1486;
+					spell.TooltipId = 9003;
                     spell.Duration = 65535;
                     spell.Value = 67;
                     spell.Name = "Constitution Buff";
                     spell.Description = "Increases target's Constitution.";
                     spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100003;
+                    spell.SpellID = 2000003;
                     spell.Target = "Realm";
                     spell.Type = "ConstitutionBuff";
+					spell.PackageID = "BuffBotSpells";
+                    GameServer.Database.AddObject(spell);
                     m_basecon = new Spell(spell, 50);
                 }
                 return m_basecon;
@@ -332,18 +338,21 @@ namespace DOL.GS.Scripts
                 if (m_basedex == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = false;
+                    spell.AllowAdd = true;
                     spell.CastTime = 0;
                     spell.ClientEffect = 1476;
                     spell.Icon = 1476;
+					spell.TooltipId = 9004;
                     spell.Duration = 65535;
                     spell.Value = 67;
                     spell.Name = "Dexterity Buff";
                     spell.Description = "Increases target's Dexterity.";
                     spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100004;
+                    spell.SpellID = 2000004;
                     spell.Target = "Realm";
                     spell.Type = "DexterityBuff";
+					spell.PackageID = "BuffBotSpells";
+                    GameServer.Database.AddObject(spell);
                     m_basedex = new Spell(spell, 50);
                 }
                 return m_basedex;
@@ -360,18 +369,21 @@ namespace DOL.GS.Scripts
                 if (m_strcon == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = false;
+                    spell.AllowAdd = true;
                     spell.CastTime = 0;
                     spell.ClientEffect = 1517;
                     spell.Icon = 1517;
+					spell.TooltipId = 9005;
                     spell.Duration = 65535;
                     spell.Value = 100;
                     spell.Name = "Strength/Constitution Buff";
                     spell.Description = "Increases Str/Con for a character";
                     spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100005;
+                    spell.SpellID = 2000005;
                     spell.Target = "Realm";
                     spell.Type = "StrengthConstitutionBuff";
+					spell.PackageID = "BuffBotSpells";
+                    GameServer.Database.AddObject(spell);
                     m_strcon = new Spell(spell, 50);
                 }
                 return m_strcon;
@@ -388,18 +400,21 @@ namespace DOL.GS.Scripts
                 if (m_dexqui == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = false;
+                    spell.AllowAdd = true;
                     spell.CastTime = 0;
                     spell.ClientEffect = 1526;
                     spell.Icon = 1526;
+					spell.TooltipId = 9006;
                     spell.Duration = 65535;
                     spell.Value = 100;
                     spell.Name = "Dexterity/Quickness Buff";
                     spell.Description = "Decreases Dexterity and Quickness for a character.";
                     spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100006;
+                    spell.SpellID = 2000006;
                     spell.Target = "Realm";
                     spell.Type = "DexterityQuicknessBuff";
+					spell.PackageID = "BuffBotSpells";
+                    GameServer.Database.AddObject(spell);
                     m_dexqui = new Spell(spell, 50);
                 }
                 return m_dexqui;
@@ -416,18 +431,21 @@ namespace DOL.GS.Scripts
                 if (m_acuity == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = false;
+                    spell.AllowAdd = true;
                     spell.CastTime = 0;
                     spell.ClientEffect = 1538;
                     spell.Icon = 1538;
+					spell.TooltipId = 9007;
                     spell.Duration = 65535;
                     spell.Value = 67;
                     spell.Name = "Acuity Buff Buff";
                     spell.Description = "Increases Acuity (casting attribute) for a character.";
                     spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100007;
+                    spell.SpellID = 2000007;
                     spell.Target = "Realm";
                     spell.Type = "AcuityBuff";
+					spell.PackageID = "BuffBotSpells";
+                    GameServer.Database.AddObject(spell);
                     m_acuity = new Spell(spell, 50);
                 }
                 return m_acuity;
@@ -470,18 +488,21 @@ namespace DOL.GS.Scripts
                 if (m_powereg == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = false;
+                    spell.AllowAdd = true;
                     spell.CastTime = 0;
                     spell.ClientEffect = 980;
                     spell.Icon = 980;
+					spell.TooltipId = 9008;
                     spell.Duration = 65535;
                     spell.Value = 30;
                     spell.Name = "Power Regeneration Buff";
                     spell.Description = "Target regenerates power regeneration during the duration of the spell";
                     spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100008;
+                    spell.SpellID = 2000008;
                     spell.Target = "Realm";
                     spell.Type = "PowerRegenBuff";
+					spell.PackageID = "BuffBotSpells";
+                    GameServer.Database.AddObject(spell);
                     m_powereg = new Spell(spell, 50);
                 }
                 return m_powereg;
@@ -498,19 +519,22 @@ namespace DOL.GS.Scripts
                 if (m_dmgadd == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = false;
+                    spell.AllowAdd = true;
                     spell.CastTime = 0;
                     spell.ClientEffect = 18;
                     spell.Icon = 18;
+					spell.TooltipId = 9009;
                     spell.Duration = 65535;
                     spell.Damage = 5.0;
                     spell.DamageType = 15;
                     spell.Name = "Damage Add Buff";
                     spell.Description = "Target's melee attacks do additional damage.";
                     spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100009;
+                    spell.SpellID = 2000009;
                     spell.Target = "Realm";
                     spell.Type = "DamageAdd";
+					spell.PackageID = "BuffBotSpells";
+                    GameServer.Database.AddObject(spell);
                     m_dmgadd = new Spell(spell, 50);
                 }
                 return m_dmgadd;
@@ -527,18 +551,21 @@ namespace DOL.GS.Scripts
                 if (m_haste == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = false;
+                    spell.AllowAdd = true;
                     spell.CastTime = 0;
                     spell.ClientEffect = 407;
                     spell.Icon = 407;
+					spell.TooltipId = 9010;
                     spell.Duration = 65535;
                     spell.Value = 15;
                     spell.Name = "Haste Buff";
                     spell.Description = "Increases the target's combat speed.";
                     spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100010;
+                    spell.SpellID = 2000010;
                     spell.Target = "Realm";
                     spell.Type = "CombatSpeedBuff";
+					spell.PackageID = "BuffBotSpells";
+                    GameServer.Database.AddObject(spell);
                     m_haste = new Spell(spell, 50);
                 }
                 return m_haste;
@@ -555,18 +582,21 @@ namespace DOL.GS.Scripts
                 if (m_hpRegen == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = false;
+                    spell.AllowAdd = true;
                     spell.CastTime = 0;
                     spell.ClientEffect = 1534;
                     spell.Icon = 1534;
+					spell.TooltipId = 9011;
                     spell.Duration = 65535;
                     spell.Value = 7;
                     spell.Name = "Health Regeneration Buff";
                     spell.Description = "Target regenerates the given amount of health every tick";
                     spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100011;
+                    spell.SpellID = 2000011;
                     spell.Target = "Realm";
                     spell.Type = "HealthRegenBuff";
+					spell.PackageID = "BuffBotSpells";
+                    GameServer.Database.AddObject(spell);
                     m_hpRegen = new Spell(spell, 50);
                 }
                 return m_hpRegen;
@@ -583,18 +613,21 @@ namespace DOL.GS.Scripts
                 if (m_endRegen == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = false;
+                    spell.AllowAdd = true;
                     spell.CastTime = 0;
                     spell.ClientEffect = 3296;
                     spell.Icon = 3296;
+					spell.TooltipId = 9012;
                     spell.Duration = 65535;
                     spell.Value = 5;
                     spell.Name = "Endurance Regeneration Buff";
                     spell.Description = "Target regenerates endurance during the duration of the spell.";
                     spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100012;
+                    spell.SpellID = 2000012;
                     spell.Target = "Realm";
                     spell.Type = "EnduranceRegenBuff";
+					spell.PackageID = "BuffBotSpells";
+                    GameServer.Database.AddObject(spell);
                     m_endRegen = new Spell(spell, 50);
                 }
                 return m_endRegen;
