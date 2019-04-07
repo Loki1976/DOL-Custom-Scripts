@@ -71,7 +71,7 @@ namespace DOL.GS.Scripts
             if (player == null || item == null) return false;
             bool output = false;
             #region messages
-            if (WorldMgr.GetDistance(this, player) > WorldMgr.INTERACT_DISTANCE)
+            if (GetDistanceTo(player) > WorldMgr.INTERACT_DISTANCE)
             {
                 player.Out.SendMessage("You are too far away to give anything to " + GetName(0, false) + ".", eChatType.CT_System, eChatLoc.CL_SystemWindow);
                 return false;

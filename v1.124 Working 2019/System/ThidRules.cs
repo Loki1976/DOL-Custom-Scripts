@@ -171,7 +171,9 @@ namespace DOL.GS.ServerRules
         protected static int[] m_safeRegions =
 		{
 			
+			2, //Alb Housing
 			202, //Hibernia Housing
+			102, //Midgard Housing
 		};
 
         /// <summary>
@@ -180,7 +182,7 @@ namespace DOL.GS.ServerRules
         protected static int[] m_pvpRegions =
 		{
 
-		498,	
+			51,
 		};
 
         /// <summary>
@@ -188,9 +190,7 @@ namespace DOL.GS.ServerRules
         /// </summary>
         protected static int[] m_pveRegions =
 		{
-			
-			
-		91,
+			249,	
 		};
         
         #endregion

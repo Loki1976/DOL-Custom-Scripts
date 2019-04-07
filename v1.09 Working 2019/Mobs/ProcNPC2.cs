@@ -52,7 +52,7 @@ namespace DOL.GS.Scripts
         {
             GamePlayer t = source as GamePlayer;
             if (t == null || item == null) return false;
-            if (WorldMgr.GetDistance(this, t) > WorldMgr.INTERACT_DISTANCE)
+            if (GetDistanceTo(t) > WorldMgr.INTERACT_DISTANCE)
             {
                 t.Out.SendMessage("You are too far away to give anything to " + GetName(0, false) + ".", eChatType.CT_System, eChatLoc.CL_SystemWindow);
                 return false;

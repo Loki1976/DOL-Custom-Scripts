@@ -84,7 +84,7 @@ namespace DOL.GS.Items
     public class DragonslayerWeapons
     {
         public static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private const bool RESET_DRAGONSLAYERWEAPONS = true; // Set to true at first server boot to reset weapons, 
+        private const bool RESET_DRAGONSLAYERWEAPONS = false; // Set to true at first server boot to reset weapons, 
         // then set it to false before next boot.
 
         #region Albion Dragonslayer Weapons
