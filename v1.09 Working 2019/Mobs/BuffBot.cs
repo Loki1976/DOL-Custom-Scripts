@@ -275,7 +275,7 @@ namespace DOL.GS.Scripts
                 if (m_basestr == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = true;
+                    spell.AllowAdd = false;
                     spell.CastTime = 0;
                     spell.ClientEffect = 1457;
                     spell.Icon = 1457;
@@ -307,7 +307,7 @@ namespace DOL.GS.Scripts
                 if (m_basecon == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = true;
+                    spell.AllowAdd = false;
                     spell.CastTime = 0;
                     spell.ClientEffect = 1486;
                     spell.Icon = 1486;
@@ -338,7 +338,7 @@ namespace DOL.GS.Scripts
                 if (m_basedex == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = true;
+                    spell.AllowAdd = false;
                     spell.CastTime = 0;
                     spell.ClientEffect = 1476;
                     spell.Icon = 1476;
@@ -369,7 +369,7 @@ namespace DOL.GS.Scripts
                 if (m_strcon == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = true;
+                    spell.AllowAdd = false;
                     spell.CastTime = 0;
                     spell.ClientEffect = 1517;
                     spell.Icon = 1517;
@@ -400,7 +400,7 @@ namespace DOL.GS.Scripts
                 if (m_dexqui == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = true;
+                    spell.AllowAdd = false;
                     spell.CastTime = 0;
                     spell.ClientEffect = 1526;
                     spell.Icon = 1526;
@@ -431,7 +431,7 @@ namespace DOL.GS.Scripts
                 if (m_acuity == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = true;
+                    spell.AllowAdd = false;
                     spell.CastTime = 0;
                     spell.ClientEffect = 1538;
                     spell.Icon = 1538;
@@ -488,7 +488,7 @@ namespace DOL.GS.Scripts
                 if (m_powereg == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = true;
+                    spell.AllowAdd = false;
                     spell.CastTime = 0;
                     spell.ClientEffect = 980;
                     spell.Icon = 980;
@@ -519,7 +519,7 @@ namespace DOL.GS.Scripts
                 if (m_dmgadd == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = true;
+                    spell.AllowAdd = false;
                     spell.CastTime = 0;
                     spell.ClientEffect = 18;
                     spell.Icon = 18;
@@ -551,7 +551,7 @@ namespace DOL.GS.Scripts
                 if (m_haste == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = true;
+                    spell.AllowAdd = false;
                     spell.CastTime = 0;
                     spell.ClientEffect = 407;
                     spell.Icon = 407;
@@ -582,7 +582,7 @@ namespace DOL.GS.Scripts
                 if (m_hpRegen == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = true;
+                    spell.AllowAdd = false;
                     spell.CastTime = 0;
                     spell.ClientEffect = 1534;
                     spell.Icon = 1534;
@@ -613,7 +613,7 @@ namespace DOL.GS.Scripts
                 if (m_endRegen == null)
                 {
                     DBSpell spell = new DBSpell();
-                    spell.AllowAdd = true;
+                    spell.AllowAdd = false;
                     spell.CastTime = 0;
                     spell.ClientEffect = 3296;
                     spell.Icon = 3296;
