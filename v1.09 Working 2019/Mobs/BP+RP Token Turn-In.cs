@@ -1,10 +1,5 @@
 ﻿/* Author : Unknown
  */
-
-
-
-
-
 using System;
 using System.Collections;
 using System.Timers;
@@ -37,7 +32,7 @@ namespace DOL.GS
         public override bool ReceiveItem(GameLiving source, InventoryItem item)
         {
             GamePlayer t = source as GamePlayer;
-            if (WorldMgr.GetDistance(this, source) > WorldMgr.INTERACT_DISTANCE)
+            if (GetDistanceTo(t) > WorldMgr.INTERACT_DISTANCE)
             {
                 ((GamePlayer)source).Out.SendMessage("You are too far away to give anything to " + GetName(0, false) + ".", eChatType.CT_System, eChatLoc.CL_SystemWindow);
                 return false;

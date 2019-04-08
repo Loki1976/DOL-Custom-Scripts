@@ -20,11 +20,11 @@ namespace DOL.GS.Scripts
             this.SetOwnBrain(new AntipassBrain());
             Brain.Start();
             base.AddToWorld();
-            Name = "One Way";
+            Name = "No Pass";
             Flags |= GameNPC.eFlags.PEACE;
             //Flags |= (uint)GameNPC.eFlags.CANTTARGET;
             Flags |= GameNPC.eFlags.FLYING;      
-            Model = 2039;
+            Model = 666;
             Size = 50;
             Level = 90;
             MaxSpeedBase = 0;
