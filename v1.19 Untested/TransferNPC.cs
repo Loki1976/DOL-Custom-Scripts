@@ -418,7 +418,7 @@ namespace DOL.GS.Scripts
 			/// </summary>
 			/// <param name="charname">the charactername</param>
 			/// <returns>the found character or null</returns>
-			private Character GetCharacter(string charname)
+			private DOLCharacters GetCharacter(string charname)
 			{
 				//Seek players ingame first
 				GameClient client = WorldMgr.GetClientByPlayerName(charname, true, false);

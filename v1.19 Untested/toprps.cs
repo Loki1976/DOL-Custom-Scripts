@@ -1,14 +1,16 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using DOL.GS.PacketHandler;
 using DOL.Database;
+using DOL.Language;
 
-namespace DOL.GS.Scripts
+namespace DOL.GS.Commands
 {
     
     [CmdAttribute(
        "&toprps",
-       (uint)ePrivLevel.Player,
+       ePrivLevel.Player,
        "Displays the Top 20 Players with the most Realm Points.",
        "/toprps")]
     public class TopHeroCommandHandler : ICommandHandler

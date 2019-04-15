@@ -102,7 +102,7 @@ namespace DOL.Database
                 Description = line;
         }
 
-        public override bool AutoSave
+        public override bool AllowAdd
         {
             get { return false; }
             set { }
