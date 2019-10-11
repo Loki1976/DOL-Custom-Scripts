@@ -7,6 +7,7 @@ Dawn of Light - Dark Age of Camelot Server Emulator (DOL)
 DOL Server is a server emulator for the game Dark Age of Camelot written by the Dawn of Light community
 
 Latest Release 1.109: https://github.com/Dawn-of-Light/DOLSharp/releases/latest
+
 Latest Release 1.124+: https://github.com/Los-Ojos/DolServer-1124
 
 How To Use
