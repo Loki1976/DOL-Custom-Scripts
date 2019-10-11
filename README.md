@@ -13,7 +13,7 @@ Latest Release 1.124+: https://github.com/Los-Ojos/DolServer-1124
 How To Use
 ----
 
-Just copy the working directory, or what ever scripts you want into the /customnpcs durectory and then start server.
+Just copy the working directory, or what ever scripts you want into the /customnpcs directory and then start server.
 
 BPTransferNpc.cs
 ----
