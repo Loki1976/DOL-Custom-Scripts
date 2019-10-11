@@ -1,4 +1,4 @@
-DOLSharp - DOL Server
+DOLServer-Custom-Scripts
 ========
 
 Dawn of Light - Dark Age of Camelot Server Emulator (DOL)
@@ -6,37 +6,20 @@ Dawn of Light - Dark Age of Camelot Server Emulator (DOL)
 
 DOL Server is a server emulator for the game Dark Age of Camelot written by the Dawn of Light community
 
-It does the following:
+Latest Release 1.109: https://github.com/Dawn-of-Light/DOLSharp/releases/latest
+Latest Release 1.124+: https://github.com/Los-Ojos/DolServer-1124
 
-    Provides the network communication needed to allow a DAOC game client to connect to the server
-    Provides a database layer between the server and MySQL~SQLite to allow storage of characters, npcs, items and so on
-    Provides a persistent world framework for customisation of game rulesets and behaviours
-
-Auto Builds
+How To Use
 ----
 
-MS Build: [![Build status](https://ci.appveyor.com/api/projects/status/lwexc16e3h1u2jee?svg=true)](https://ci.appveyor.com/project/dol-leodagan/dolsharp) XBuild: [![Build status](https://api.travis-ci.org/Dawn-of-Light/DOLSharp.svg)](https://travis-ci.org/Dawn-of-Light/DOLSharp)
+Just copy the working directory, or what ever scripts you want into the /customnpcs durectory and then start server.
 
-Latest Release : https://github.com/Dawn-of-Light/DOLSharp/releases/latest
-
-How To Build
+BPTransferNpc.cs
 ----
 
-Clone Git Repository to a working Directory.
-
-Restore Nuget Package : https://docs.nuget.org/consume/nuget-faq
-
-This will download dependencies from nuget repository instead of using embedded binaries.
-
-Then Build the project. (use Debug Target if you intend to contribute or write your own scripts...)
-
-The debug folder should be your working directory from now on, you should focus on populating a database to build your server and rely on source files to find constants values used in database records...
-
-You should use an IDE to track default behaviors and reach code parts where constants are used, handling breakpoint with a debugger can be a life savior in understanding how some game rules are enforced with legacy code.
+To get this script to work in both versions you need to edit GamePlayer.cs line 187 change: internal DOLCharacters to: public DOLCharacters
 
 Documentation
 ----
 
- - Homepage: http://www.dolserver.net
- - Getting Started: [Official Forum](http://www.dolserver.net/index.php)
  - Coding: [Wiki Home](https://github.com/Dawn-of-Light/DOLSharp/wiki)
