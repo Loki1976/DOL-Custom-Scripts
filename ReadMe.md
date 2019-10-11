@@ -1,1 +1,2 @@
 These are a collection of custom scripts for Dawn of Light DOLserver. To get the BPtransferNpc to compile you must edit GamePlayer.cs in the DOLserver core and change line 187 the word internal gets changed to public. Save file and recompile the core.
+All the other scripts in the working directory work without any changes. 
