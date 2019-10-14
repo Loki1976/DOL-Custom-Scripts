@@ -36,7 +36,7 @@ namespace DOL.GS.Scripts
             }
 
             Inventory = template.CloseTemplate();
-            Flags = 16;	// Peace flag.
+            Flags |= GameNPC.eFlags.PEACE;
             return base.AddToWorld();
         }
 
@@ -44,7 +44,7 @@ namespace DOL.GS.Scripts
         {
             GamePlayer player = (GamePlayer)source;
             GamePlayer t = source as GamePlayer;
-            if (WorldMgr.GetDistance(this, source) > WorldMgr.INTERACT_DISTANCE)
+            if (GetDistanceTo(player) > WorldMgr.INTERACT_DISTANCE)
             {
                 ((GamePlayer)source).Out.SendMessage("You are too far away to give anything to " + GetName(0, false) + ".", eChatType.CT_System, eChatLoc.CL_SystemWindow);
                 return false;
@@ -73,8 +73,8 @@ namespace DOL.GS.Scripts
                 else if (item.Id_nb == "prizetoken4")
                 {
                     InventoryItem generic0 = new InventoryItem();
-                    ItemTemplate tgeneric0 = (ItemTemplate)GameServer.Database.FindObjectByKey(typeof(ItemTemplate), "DragonslayerWizardStaff");
-                    generic0.CopyFrom(tgeneric0);
+                    ItemTemplate tgeneric0 = (ItemTemplate)GameServer.Database.FindObjectByKey<ItemTemplate>("DragonslayerWizardStaff");
+                    generic0 = GameInventoryItem.Create<ItemTemplate>(tgeneric0);
                     t.Inventory.AddItem(eInventorySlot.FirstEmptyBackpack, generic0);
                     t.Inventory.RemoveItem(item); t.UpdatePlayerStatus();
                     t.Out.SendMessage("Congratulations!", eChatType.CT_System, eChatLoc.CL_SystemWindow);
@@ -82,8 +82,8 @@ namespace DOL.GS.Scripts
                 else if (item.Id_nb == "prizetoken5")
                 {
                     InventoryItem generic0 = new InventoryItem();
-                    ItemTemplate tgeneric0 = (ItemTemplate)GameServer.Database.FindObjectByKey(typeof(ItemTemplate), "DragonslayerWizardStaff");
-                    generic0.CopyFrom(tgeneric0);
+                    ItemTemplate tgeneric0 = (ItemTemplate)GameServer.Database.FindObjectByKey<ItemTemplate>("DragonslayerWizardStaff");
+                    generic0 = GameInventoryItem.Create<ItemTemplate>(tgeneric0);
                     t.Inventory.AddItem(eInventorySlot.FirstEmptyBackpack, generic0);
                     t.Inventory.RemoveItem(item); t.UpdatePlayerStatus();
                     t.Out.SendMessage("Congratulations!", eChatType.CT_System, eChatLoc.CL_SystemWindow);
@@ -91,8 +91,8 @@ namespace DOL.GS.Scripts
                 else if (item.Id_nb == "prizetoken6")
                 {
                     InventoryItem generic0 = new InventoryItem();
-                    ItemTemplate tgeneric0 = (ItemTemplate)GameServer.Database.FindObjectByKey(typeof(ItemTemplate), "DragonslayerWizardStaff");
-                    generic0.CopyFrom(tgeneric0);
+                    ItemTemplate tgeneric0 = (ItemTemplate)GameServer.Database.FindObjectByKey<ItemTemplate>("DragonslayerWizardStaff");
+                    generic0 = GameInventoryItem.Create<ItemTemplate>(tgeneric0);
                     t.Inventory.AddItem(eInventorySlot.FirstEmptyBackpack, generic0);
                     t.Inventory.RemoveItem(item); t.UpdatePlayerStatus();
                     t.Out.SendMessage("Congratulations!", eChatType.CT_System, eChatLoc.CL_SystemWindow);
@@ -100,8 +100,8 @@ namespace DOL.GS.Scripts
                 else if (item.Id_nb == "prizetoken7")
                 {
                     InventoryItem generic0 = new InventoryItem();
-                    ItemTemplate tgeneric0 = (ItemTemplate)GameServer.Database.FindObjectByKey(typeof(ItemTemplate), "DragonslayerWizardStaff");
-                    generic0.CopyFrom(tgeneric0);
+                    ItemTemplate tgeneric0 = (ItemTemplate)GameServer.Database.FindObjectByKey<ItemTemplate>("DragonslayerWizardStaff");
+                    generic0 = GameInventoryItem.Create<ItemTemplate>(tgeneric0);
                     t.Inventory.AddItem(eInventorySlot.FirstEmptyBackpack, generic0);
                     t.Inventory.RemoveItem(item); t.UpdatePlayerStatus();
                     t.Out.SendMessage("Congratulations!", eChatType.CT_System, eChatLoc.CL_SystemWindow);
@@ -109,8 +109,8 @@ namespace DOL.GS.Scripts
                 else if (item.Id_nb == "prizetoken8")
                 {
                     InventoryItem generic0 = new InventoryItem();
-                    ItemTemplate tgeneric0 = (ItemTemplate)GameServer.Database.FindObjectByKey(typeof(ItemTemplate), "DragonslayerWizardStaff");
-                    generic0.CopyFrom(tgeneric0);
+                    ItemTemplate tgeneric0 = (ItemTemplate)GameServer.Database.FindObjectByKey<ItemTemplate>("DragonslayerWizardStaff");
+                    generic0 = GameInventoryItem.Create<ItemTemplate>(tgeneric0);
                     t.Inventory.AddItem(eInventorySlot.FirstEmptyBackpack, generic0);
                     t.Inventory.RemoveItem(item); t.UpdatePlayerStatus();
                     t.Out.SendMessage("Congratulations!", eChatType.CT_System, eChatLoc.CL_SystemWindow);
