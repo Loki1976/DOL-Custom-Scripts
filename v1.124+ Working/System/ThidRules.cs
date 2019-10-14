@@ -888,6 +888,8 @@ namespace DOL.GS.ServerRules
                     return 3;
                 else if (TCServerRules.IsPvPZone(client.Player.CurrentRegionID))
                     return 1;
+				
+				else return 0;
             }
             return base.GetColorHandling(client);
         }
