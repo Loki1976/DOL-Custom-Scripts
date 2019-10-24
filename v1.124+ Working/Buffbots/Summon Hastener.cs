@@ -153,7 +153,7 @@ namespace DOL.GS.Spells
 
         public override void ApplyEffectOnTarget(GameLiving target, double effectiveness)
         {
-            NpcTemplate template = NpcTemplateMgr.GetTemplate((int)m_spell.Value);
+            NpcTemplate template = NpcTemplateMgr.GetTemplate((int)Spell.Value);
 
             base.ApplyEffectOnTarget(target, effectiveness);
 
@@ -189,13 +189,13 @@ namespace DOL.GS.Spells
             }
             GameSpellEffect effect = CreateSpellEffect(npc, effectiveness);
             int x, y;
-            m_caster.GetSpotFromHeading(64, out x, out y);
+            Caster.GetSpotFromHeading(64, out x, out y);
             npc.X = x;
             npc.Y = y;
-            npc.Z = m_caster.Z;
-            npc.CurrentRegion = m_caster.CurrentRegion;
-            npc.Heading = (ushort)((m_caster.Heading + 2048) % 4096);
-            npc.Realm = m_caster.Realm;
+            npc.Z = Caster.Z;
+            npc.CurrentRegion = Caster.CurrentRegion;
+            npc.Heading = (ushort)((Caster.Heading + 2048) % 4096);
+            npc.Realm = Caster.Realm;
             npc.CurrentSpeed = 0;
             npc.Level = 1;
             npc.SetOwnBrain(new AI.Brain.BlankBrain());
