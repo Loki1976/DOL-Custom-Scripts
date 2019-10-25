@@ -41,14 +41,14 @@ namespace DOL.GS.Scripts
             }
 
             Inventory = template.CloseTemplate();
-            Flags = 16;	// Peace flag.
+            Flags |= GameNPC.eFlags.PEACE;	// Peace flag.
             return base.AddToWorld();
         }
 
         public override bool ReceiveItem(GameLiving source, InventoryItem item)
         {
             GamePlayer t = source as GamePlayer;
-            if (WorldMgr.GetDistance(this, source) > WorldMgr.INTERACT_DISTANCE)
+            if (GetDistanceTo(t) > WorldMgr.INTERACT_DISTANCE)
             {
                 ((GamePlayer)source).Out.SendMessage("You are too far away to give anything to " + GetName(0, false) + ".", eChatType.CT_System, eChatLoc.CL_SystemWindow);
                 return false;
@@ -162,7 +162,8 @@ namespace DOL.GS.Scripts
                     t.ReceiveItem(this, "ml9token");
                     t.ReceiveItem(this, "ml10token");
                     t.Inventory.RemoveItem(item); 
-                    t.UpdateSpellLineLevels(true);
+                    t.RefreshSpecDependantSkills(true);
+//                  t.UpdateSpellLineLevels(true);
                     t.Out.SendUpdatePlayerSkills();
                     t.Out.SendUpdatePlayer();
                     t.UpdatePlayerStatus();
