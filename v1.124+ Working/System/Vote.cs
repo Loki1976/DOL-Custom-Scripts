@@ -102,7 +102,7 @@ namespace DOL.Database
                 Description = line;
         }
 
-        public override bool AutoSave
+        public bool AutoSave
         {
             get { return false; }
             set { }
@@ -215,8 +215,13 @@ namespace DOL.GS.Scripts
 
             string msg = "Voting ended!";
 
-            ArrayList clients = WorldMgr.GetAllPlayingClients();
-            lock (clients)
+            int listStart = 1;
+            ArrayList filters = null;
+            ArrayList clients = new ArrayList();
+
+            // get list of clients depending on server type
+            foreach (GameClient serverClient in WorldMgr.GetAllPlayingClients())
+                lock (clients)
             {
                 // counting the votes for each option
                 uint count = 0;
@@ -539,7 +544,7 @@ namespace DOL.GS.Commands
                     {
                         DBVoting voting;
                         if (param != string.Empty)
-                            voting = (DBVoting)GameServer.Database.FindObjectByKey(typeof(DBVoting), GameServer.Database.Escape(param));
+                            voting = (DBVoting)GameServer.Database.FindObjectByKey<DBVoting> (GameServer.Database.Escape(param));
                         else
                             voting = (DBVoting)player.TempProperties.getProperty<object>(VotingMgr.GM_TEMP_PROP_KEY, null);
 
@@ -583,9 +588,9 @@ namespace DOL.GS.Commands
                     {
                         DBVoting[] votings;
                         if (param != string.Empty)
-                            votings = (DBVoting[])GameServer.Database.SelectObjects(typeof(DBVoting), "VoteID LIKE '%" + GameServer.Database.Escape(param) + "%'");
+                            votings = (DBVoting[])GameServer.Database.SelectObjects<DBVoting> ("VoteID LIKE '%" + GameServer.Database.Escape(param) + "%'");
                         else
-                            votings = (DBVoting[])GameServer.Database.SelectAllObjects(typeof(DBVoting));
+                            votings = (DBVoting[])GameServer.Database.SelectAllObjects<DBVoting>();
 
                         if (votings == null || votings.Length == 0)
                         {
@@ -604,7 +609,7 @@ namespace DOL.GS.Commands
                     {
                         DBVoting voting;
                         if (param != string.Empty)
-                            voting = (DBVoting)GameServer.Database.FindObjectByKey(typeof(DBVoting), GameServer.Database.Escape(param));
+                            voting = (DBVoting)GameServer.Database.FindObjectByKey<DBVoting> (GameServer.Database.Escape(param));
                         else
                             voting = (DBVoting)player.TempProperties.getProperty<object>(VotingMgr.GM_TEMP_PROP_KEY, null);
 
