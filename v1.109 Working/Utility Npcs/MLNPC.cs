@@ -328,7 +328,7 @@ namespace DOL.GS.Scripts
         public override bool ReceiveItem(GameLiving source, InventoryItem item)
         {
             GamePlayer t = source as GamePlayer;
-            if (WorldMgr.GetDistance(this, source) > WorldMgr.INTERACT_DISTANCE)
+            if (GetDistanceTo(t) > WorldMgr.INTERACT_DISTANCE)
             {
                 ((GamePlayer)source).Out.SendMessage("You are too far away to give anything to " + GetName(0, false) + ".", eChatType.CT_System, eChatLoc.CL_SystemWindow);
                 return false;
@@ -589,7 +589,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 2; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML2 Banelord"));
                         t.Out.SendMessage("You have gained ML2.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML1 Battlemaster") != null)
@@ -597,7 +597,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 2; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML2 Battlemaster"));
                         t.Out.SendMessage("You have gained ML2.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML1 Convoker") != null)
@@ -605,7 +605,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 2; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML2 Convoker"));
                         t.Out.SendMessage("You have gained Convoker ML2.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML1 Perfecter") != null)
@@ -613,7 +613,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 2; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML2 Perfecter"));
                         t.Out.SendMessage("You have gained ML2.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML1 Sojourner") != null)
@@ -621,7 +621,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 2; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML2 Sojourner"));
                         t.Out.SendMessage("You have gained ML2.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML1 Spymaster") != null)
@@ -629,7 +629,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 2; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML2 Spymaster"));
                         t.Out.SendMessage("You have gained ML2.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML1 Stormlord") != null)
@@ -637,7 +637,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 2; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML2 Stormlord"));
                         t.Out.SendMessage("You have gained ML2.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML1 Warlord") != null)
@@ -645,7 +645,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 2; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML2 Warlord"));
                         t.Out.SendMessage("You have gained ML2.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                 }
@@ -664,7 +664,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 3; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML3 Banelord"));
                         t.Out.SendMessage("You have gained ML3.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML2 Battlemaster") != null)
@@ -672,7 +672,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 3; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML3 Battlemaster"));
                         t.Out.SendMessage("You have gained ML3.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML2 Convoker") != null)
@@ -680,7 +680,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 3; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML3 Convoker"));
                         t.Out.SendMessage("You have gained ML3.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML2 Perfecter") != null)
@@ -688,7 +688,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 3; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML3 Perfecter"));
                         t.Out.SendMessage("You have gained ML3.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML2 Sojourner") != null)
@@ -696,7 +696,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 3; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML3 Sojourner"));
                         t.Out.SendMessage("You have gained ML3.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML2 Spymaster") != null)
@@ -704,7 +704,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 3; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML3 Spymaster"));
                         t.Out.SendMessage("You have gained ML3.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML2 Stormlord") != null)
@@ -712,7 +712,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 3; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML3 Stormlord"));
                         t.Out.SendMessage("You have gained ML3.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML2 Warlord") != null)
@@ -720,7 +720,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 3; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML3 Warlord"));
                         t.Out.SendMessage("You have gained ML3.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                 }
@@ -739,7 +739,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 4; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML4 Banelord"));
                         t.Out.SendMessage("You have gained ML4.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML3 Battlemaster") != null)
@@ -747,7 +747,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 4; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML4 Battlemaster"));
                         t.Out.SendMessage("You have gained ML4.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML3 Convoker") != null)
@@ -755,7 +755,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 4; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML4 Convoker"));
                         t.Out.SendMessage("You have gained ML4.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML3 Perfecter") != null)
@@ -763,7 +763,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 4; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML4 Perfecter"));
                         t.Out.SendMessage("You have gained ML4.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML3 Sojourner") != null)
@@ -771,7 +771,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 4; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML4 Sojourner"));
                         t.Out.SendMessage("You have gained ML4.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML3 Spymaster") != null)
@@ -779,7 +779,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 4; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML4 Spymaster"));
                         t.Out.SendMessage("You have gained ML4.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML3 Stormlord") != null)
@@ -787,7 +787,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 4; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML4 Stormlord"));
                         t.Out.SendMessage("You have gained ML4.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML3 Warlord") != null)
@@ -795,7 +795,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 4; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML4 Warlord"));
                         t.Out.SendMessage("You have gained ML4.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                 }
@@ -814,7 +814,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 5; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML5 Banelord"));
                         t.Out.SendMessage("You have gained ML5.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML4 Battlemaster") != null)
@@ -822,7 +822,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 5; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML5 Battlemaster"));
                         t.Out.SendMessage("You have gained ML5.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML4 Convoker") != null)
@@ -830,7 +830,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 5; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML5 Convoker"));
                         t.Out.SendMessage("You have gained ML5.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML4 Perfecter") != null)
@@ -838,7 +838,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 5; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML5 Perfecter"));
                         t.Out.SendMessage("You have gained ML5.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML4 Sojourner") != null)
@@ -846,7 +846,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 5; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML5 Sojourner"));
                         t.Out.SendMessage("You have gained ML5.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML4 Spymaster") != null)
@@ -854,7 +854,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 5; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML5 Spymaster"));
                         t.Out.SendMessage("You have gained ML5.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML4 Stormlord") != null)
@@ -862,7 +862,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 5; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML5 Stormlord"));
                         t.Out.SendMessage("You have gained ML5.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML4 Warlord") != null)
@@ -870,7 +870,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 5; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML5 Warlord"));
                         t.Out.SendMessage("You have gained ML5.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                 }
@@ -889,7 +889,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 6; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML6 Banelord"));
                         t.Out.SendMessage("You have gained ML6.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML5 Battlemaster") != null)
@@ -897,7 +897,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 6; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML6 Battlemaster"));
                         t.Out.SendMessage("You have gained ML6.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML5 Convoker") != null)
@@ -905,7 +905,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 6; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML6 Convoker"));
                         t.Out.SendMessage("You have gained ML6.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML5 Perfecter") != null)
@@ -913,7 +913,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 6; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML6 Perfecter"));
                         t.Out.SendMessage("You have gained ML6.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML5 Sojourner") != null)
@@ -921,7 +921,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 6; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML6 Sojourner"));
                         t.Out.SendMessage("You have gained ML6.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML5 Spymaster") != null)
@@ -929,7 +929,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 6; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML6 Spymaster"));
                         t.Out.SendMessage("You have gained ML6.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML5 Stormlord") != null)
@@ -937,7 +937,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 6; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML6 Stormlord"));
                         t.Out.SendMessage("You have gained ML6.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML5 Warlord") != null)
@@ -945,7 +945,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 6; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML6 Warlord"));
                         t.Out.SendMessage("You have gained ML6.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                 }
@@ -964,7 +964,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 7; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML7 Banelord"));
                         t.Out.SendMessage("You have gained ML7.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML6 Battlemaster") != null)
@@ -972,7 +972,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 7; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML7 Battlemaster"));
                         t.Out.SendMessage("You have gained ML7.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML6 Convoker") != null)
@@ -980,7 +980,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 7; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML7 Convoker"));
                         t.Out.SendMessage("You have gained ML7.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML6 Perfecter") != null)
@@ -988,7 +988,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 7; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML7 Perfecter"));
                         t.Out.SendMessage("You have gained ML7.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML6 Sojourner") != null)
@@ -996,7 +996,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 7; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML7 Sojourner"));
                         t.Out.SendMessage("You have gained ML7.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML6 Spymaster") != null)
@@ -1004,7 +1004,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 7; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML7 Spymaster"));
                         t.Out.SendMessage("You have gained ML7.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML6 Stormlord") != null)
@@ -1012,7 +1012,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 7; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML7 Stormlord"));
                         t.Out.SendMessage("You have gained ML7.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML6 Warlord") != null)
@@ -1020,7 +1020,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 7; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML7 Warlord"));
                         t.Out.SendMessage("You have gained ML7.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                 }
@@ -1039,7 +1039,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 8; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML8 Banelord"));
                         t.Out.SendMessage("You have gained ML8.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML7 Battlemaster") != null)
@@ -1047,7 +1047,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 8; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML8 Battlemaster"));
                         t.Out.SendMessage("You have gained ML8.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML7 Convoker") != null)
@@ -1055,7 +1055,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 8; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML8 Convoker"));
                         t.Out.SendMessage("You have gained ML8.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML7 Perfecter") != null)
@@ -1063,7 +1063,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 8; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML8 Perfecter"));
                         t.Out.SendMessage("You have gained ML8.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML7 Sojourner") != null)
@@ -1071,7 +1071,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 8; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML8 Sojourner"));
                         t.Out.SendMessage("You have gained ML8.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML7 Spymaster") != null)
@@ -1079,7 +1079,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 8; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML8 Spymaster"));
                         t.Out.SendMessage("You have gained ML8.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML7 Stormlord") != null)
@@ -1087,7 +1087,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 8; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML8 Stormlord"));
                         t.Out.SendMessage("You have gained ML8.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML7 Warlord") != null)
@@ -1095,7 +1095,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 8; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML8 Warlord"));
                         t.Out.SendMessage("You have gained ML8.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                 }
@@ -1114,7 +1114,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 9; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML9 Banelord"));
                         t.Out.SendMessage("You have gained ML9.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML8 Battlemaster") != null)
@@ -1122,7 +1122,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 9; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML9 Battlemaster"));
                         t.Out.SendMessage("You have gained ML9.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML8 Convoker") != null)
@@ -1130,7 +1130,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 9; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML9 Convoker"));
                         t.Out.SendMessage("You have gained ML9.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML8 Perfecter") != null)
@@ -1138,7 +1138,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 9; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML9 Perfecter"));
                         t.Out.SendMessage("You have gained ML9.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML8 Sojourner") != null)
@@ -1146,7 +1146,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 9; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML9 Sojourner"));
                         t.Out.SendMessage("You have gained ML9.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML8 Spymaster") != null)
@@ -1154,7 +1154,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 9; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML9 Spymaster"));
                         t.Out.SendMessage("You have gained ML9.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML8 Stormlord") != null)
@@ -1162,7 +1162,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 9; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML9 Stormlord"));
                         t.Out.SendMessage("You have gained ML9.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML8 Warlord") != null)
@@ -1170,7 +1170,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 9; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML9 Warlord"));
                         t.Out.SendMessage("You have gained ML9.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                 }
@@ -1189,7 +1189,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 10; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML10 Banelord"));
                         t.Out.SendMessage("You have gained ML10.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML9 Battlemaster") != null)
@@ -1197,7 +1197,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 10; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML10 Battlemaster"));
                         t.Out.SendMessage("You have gained ML10.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML9 Convoker") != null)
@@ -1205,7 +1205,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 10; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML10 Convoker"));
                         t.Out.SendMessage("You have gained ML10.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML9 Perfecter") != null)
@@ -1213,7 +1213,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 10; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML10 Perfecter"));
                         t.Out.SendMessage("You have gained ML10.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML9 Sojourner") != null)
@@ -1221,7 +1221,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 10; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML10 Sojourner"));
                         t.Out.SendMessage("You have gained ML10.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML9 Spymaster") != null)
@@ -1229,7 +1229,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 10; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML10 Spymaster"));
                         t.Out.SendMessage("You have gained ML10.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML9 Stormlord") != null)
@@ -1237,7 +1237,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 10; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML10 Stormlord"));
                         t.Out.SendMessage("You have gained ML10.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                     else if (t.GetSpellLine("ML9 Warlord") != null)
@@ -1245,7 +1245,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 10; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML10 Warlord"));
                         t.Out.SendMessage("You have gained ML10.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                     }
                 }
@@ -1398,7 +1398,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 1; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML1 Banelord"));
                         t.Out.SendMessage("You have gained ML1.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     }
                     else
                     {
@@ -1435,7 +1435,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 1; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML1 Battlemaster"));
                         t.Out.SendMessage("You have gained ML1.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     }
                     else
                     {
@@ -1465,7 +1465,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 1; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML1 Convoker"));
                         t.Out.SendMessage("You have gained ML1.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     }
                     else
                     {
@@ -1485,7 +1485,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 1; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML1 Perfecter"));
                         t.Out.SendMessage("You have gained ML1.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     }
                     else
                     {
@@ -1504,7 +1504,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 1; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML1 Sojourner"));
                         t.Out.SendMessage("You have gained ML1.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     }
                     else
                     {
@@ -1521,7 +1521,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 1; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML1 Spymaster"));
                         t.Out.SendMessage("You have gained ML1.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     }
                     else
                     {
@@ -1553,7 +1553,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 1; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML1 Stormlord"));
                         t.Out.SendMessage("You have gained ML1.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     }
                     else
                     {
@@ -1582,7 +1582,7 @@ namespace DOL.GS.Scripts
                         t.MLLevel = 1; t.MLGranted = false; t.MLExperience = 0;
                         t.AddSpellLine(SkillBase.GetSpellLine("ML1 Warlord"));
                         t.Out.SendMessage("You have gained ML1.", eChatType.CT_Say, eChatLoc.CL_PopupWindow);
-                        t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                     }
                     else
                     {
