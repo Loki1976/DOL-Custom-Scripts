@@ -15,6 +15,49 @@ using System.Collections;
 
 namespace DOL.GS.Scripts
 {
+    /// <summary>
+    /// Defines the Master Level lines
+    /// </summary>
+    public enum eMLLine : byte
+    {
+        /// <summary>
+        /// No specific Master Level Line
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// Banelord Master Level Line
+        /// </summary>
+        Banelord = 1,
+        /// <summary>
+        /// Battlemaster Master Level Line
+        /// </summary>
+        BattleMaster = 2,
+        /// <summary>
+        /// Convoker Master Level Line
+        /// </summary>
+        Convoker = 3,
+        /// <summary>
+        /// Perfecter Master Level Line
+        /// </summary>
+        Perfecter = 4,
+        /// <summary>
+        /// Sojourner Master Level Line
+        /// </summary>
+        Sojourner = 5,
+        /// <summary>
+        /// Spymaster Master Level Line
+        /// </summary>
+        Spymaster = 6,
+        /// <summary>
+        /// Stormlord Master Level Line
+        /// </summary>
+        Stormlord = 7,
+        /// <summary>
+        /// Stormlord Master Level Line
+        /// </summary>
+        Warlord = 8,
+
+    }
     public class MLRespecNPC : GameNPC
     {
         private static ItemTemplate item = null;
@@ -67,7 +110,7 @@ namespace DOL.GS.Scripts
         public override bool ReceiveItem(GameLiving source, InventoryItem item)
         {
             GamePlayer t = source as GamePlayer;
-            if (WorldMgr.GetDistance(this, source) > WorldMgr.INTERACT_DISTANCE)
+            if (GetDistanceTo(t) > WorldMgr.INTERACT_DISTANCE)
             {
                 ((GamePlayer)source).Out.SendMessage("You are too far away to give anything to " + GetName(0, false) + ".", eChatType.CT_System, eChatLoc.CL_SystemWindow);
                 return false;
@@ -370,7 +413,7 @@ namespace DOL.GS.Scripts
                             t.AddSpellLine(SkillBase.GetSpellLine("ML" + i + " Banelord"));
                         }
                         t.MLLevel= (byte)eMLLine.Banelord;
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                         break;
                     case (byte)eMLLine.BattleMaster:
@@ -379,7 +422,7 @@ namespace DOL.GS.Scripts
                             t.AddSpellLine(SkillBase.GetSpellLine("ML" + i + " Battlemaster"));
                         }
                         t.MLLevel= (byte)eMLLine.BattleMaster;
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                         break;
                     case (byte)eMLLine.Convoker:
@@ -388,7 +431,7 @@ namespace DOL.GS.Scripts
                             t.AddSpellLine(SkillBase.GetSpellLine("ML" + i + " Convoker"));
                         }
                         t.MLLevel= (byte)eMLLine.Convoker;
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                         break;
                     case (byte)eMLLine.Perfecter:
@@ -397,7 +440,7 @@ namespace DOL.GS.Scripts
                             t.AddSpellLine(SkillBase.GetSpellLine("ML" + i + " Perfecter"));
                         }
                         t.MLLevel= (byte)eMLLine.Perfecter;
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                         break;
                     case (byte)eMLLine.Sojourner:
@@ -406,7 +449,7 @@ namespace DOL.GS.Scripts
                             t.AddSpellLine(SkillBase.GetSpellLine("ML" + i + " Sojourner"));
                         }
                         t.MLLevel= (byte)eMLLine.Sojourner;
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                         break;
                     case (byte)eMLLine.Stormlord:
@@ -415,7 +458,7 @@ namespace DOL.GS.Scripts
                             t.AddSpellLine(SkillBase.GetSpellLine("ML" + i + " Stormlord"));
                         }
                         t.MLLevel= (byte)eMLLine.Stormlord;
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                         break;
                     case (byte)eMLLine.Spymaster:
@@ -424,7 +467,7 @@ namespace DOL.GS.Scripts
                             t.AddSpellLine(SkillBase.GetSpellLine("ML" + i + " Spymaster"));
                         }
                         t.MLLevel= (byte)eMLLine.Spymaster;
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                         break;
                     case (byte)eMLLine.Warlord:
@@ -433,7 +476,7 @@ namespace DOL.GS.Scripts
                             t.AddSpellLine(SkillBase.GetSpellLine("ML" + i + " Warlord"));
                         }
                         t.MLLevel= (byte)eMLLine.Warlord;
-                        t.Inventory.RemoveItem(item); t.UpdateSpellLineLevels(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
+                        t.Inventory.RemoveItem(item); t.RefreshSpecDependantSkills(true); t.Out.SendUpdatePlayerSkills(); t.Out.SendUpdatePlayer(); t.UpdatePlayerStatus();
                         t.SaveIntoDatabase();
                         break;
                     default:
