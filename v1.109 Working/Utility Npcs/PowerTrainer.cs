@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////
-////////     PowerTrainer v1.0             ////////
+////////     PowerTrainer v2.0             ////////
 ////////     Copyright 2004 by Deagol      ////////
-////////     Translated by Biceps          ////////
+////////     Updated By Scrubtasticx       ////////
 ///////////////////////////////////////////////////
 
 using System;
@@ -36,7 +36,7 @@ namespace DOL.GS.Scripts
             }
 
             Inventory = template.CloseTemplate();
-            Flags = 16;	// Peace flag.
+            Flags |= eFlags.PEACE;
             return base.AddToWorld();
         }
 		/// <summary>
@@ -88,7 +88,7 @@ namespace DOL.GS.Scripts
             TurnTo(player, 30);
             if ((player.Level >= 1) && (player.Level < 5))
             {
-                player.Level = 5;
+                player.Level = 50;
                 player.Health = player.MaxHealth;
                 player.Endurance = player.MaxEndurance;
                 player.Mana = player.MaxMana;
@@ -250,11 +250,7 @@ namespace DOL.GS.Scripts
 						if ((((player.RaceName == "Avalonian") || (player.RaceName == "Briton") || (player.RaceName == "Inconnu"))) && (player.CharacterClass.ID==16))
 							PromotePlayer(player, (int)eCharacterClass.Heretic, "Arise, "+player.Name+", and know that you are no longer a simple "+player.CharacterClass.BaseName+". You are now a Heretic!");
 						break;
-                    case "Priest":
-                        if ((((player.RaceName == "Avalonian") || (player.RaceName == "Briton") || (player.RaceName == "Inconnu"))) && (player.CharacterClass.ID == 16))
-                            PromotePlayer(player, (int)eCharacterClass.Priest, "Arise, " + player.Name + ", and know that you are no longer a simple " + player.CharacterClass.BaseName + ". You are now a Priest!");
-                        break;
-// __Midgard________________________________________________________________________________________________________________
+ // __Midgard________________________________________________________________________________________________________________
 
 					case "Warrior":
                         if (((player.RaceName == "Kobold") || (player.RaceName == "MidgardMinotaur") || (player.RaceName == "Dwarf") || (player.RaceName == "Valkyn") || (player.RaceName == "Norseman") || (player.RaceName == "Troll")) && (player.CharacterClass.ID == 35))
@@ -390,10 +386,8 @@ namespace DOL.GS.Scripts
             {
                 player.Out.SendMessage(this.Name + " says, \"" + messageToPlayer + "\"", eChatType.CT_System, eChatLoc.CL_PopupWindow);
                 player.Out.SendMessage("You have been upgraded to the " + player.CharacterClass.Name + " class!", eChatType.CT_Important, eChatLoc.CL_SystemWindow);
-                player.CharacterClass.OnLevelUp(player);
-                player.UpdateSpellLineLevels(true);
-                //player.RefreshSpecDependendSkills();
-                //player.Out.SendUpdatePlayerSpells();
+                player.CharacterClass.OnLevelUp(player, player.Level);
+                player.RefreshSpecDependantSkills(true);
                 player.Out.SendUpdatePlayerSkills();
                 player.Out.SendUpdatePlayer();
                 player.UpdatePlayerStatus();
@@ -433,21 +427,6 @@ namespace DOL.GS.Scripts
                         player.GetSpecializationByName("Hammer", false).Level = 12;
                         break;
                 }
-                //Level 50
-                if ((player.CharacterClass.Name == "Cleric") || (player.CharacterClass.Name == "Warlock") || (player.CharacterClass.Name == "Bainshee") || (player.CharacterClass.Name == "Priest") || (player.CharacterClass.Name == "Priestess") || (player.CharacterClass.Name == "Necromancer") || (player.CharacterClass.Name == "Theurgist") || (player.CharacterClass.Name == "Wizard") || (player.CharacterClass.Name == "Cabalist") || (player.CharacterClass.Name == "Sorcerer") || (player.CharacterClass.Name == "Sorceress") || (player.CharacterClass.Name == "Animist") || (player.CharacterClass.Name == "Eldritch") || (player.CharacterClass.Name == "Enchanter") || (player.CharacterClass.Name == "Mentalist") || (player.CharacterClass.Name == "Druid") || (player.CharacterClass.Name == "Bonedancer") || (player.CharacterClass.Name == "Runemaster") || (player.CharacterClass.Name == "Spiritmaster") || (player.CharacterClass.Name == "Healer") || (player.CharacterClass.Name == "Shaman")) player.SkillSpecialtyPoints += 220;
-                if ((player.CharacterClass.Name == "Minstrel") || (player.CharacterClass.Name == "Vampiir") || (player.CharacterClass.Name == "Valewalker") || (player.CharacterClass.Name == "Bard") || (player.CharacterClass.Name == "Savage") || (player.CharacterClass.Name == "Skald")) player.SkillSpecialtyPoints += 330;
-                if ((player.CharacterClass.Name == "Friar") || (player.CharacterClass.Name == "Warden")) player.SkillSpecialtyPoints += 396;
-                if ((player.CharacterClass.Name == "Reaver") || (player.CharacterClass.Name == "Heretic") || (player.CharacterClass.Name == "Valkyrie") || (player.CharacterClass.Name == "Armsman") || (player.CharacterClass.Name == "Mercenary") || (player.CharacterClass.Name == "Paladin") || (player.CharacterClass.Name == "Scout") || (player.CharacterClass.Name == "Blademaster") || (player.CharacterClass.Name == "Champion") || (player.CharacterClass.Name == "Hero") || (player.CharacterClass.Name == "Ranger") || (player.CharacterClass.Name == "Hunter") || (player.CharacterClass.Name == "Berserker") || (player.CharacterClass.Name == "Thane") || (player.CharacterClass.Name == "Warrior")) player.SkillSpecialtyPoints += 445;
-                if ((player.CharacterClass.Name == "Nightshade") || (player.CharacterClass.Name == "Shadowblade")) player.SkillSpecialtyPoints += 485;
-                if (player.CharacterClass.Name == "Infiltrator") player.SkillSpecialtyPoints += 553;
-
-                //Level 45
-               // if ((player.CharacterClass.Name == "Cleric") || (player.CharacterClass.Name == "Warlock") || (player.CharacterClass.Name == "Bainshee") || (player.CharacterClass.Name == "Necromancer") || (player.CharacterClass.Name == "Theurgist") || (player.CharacterClass.Name == "Wizard") || (player.CharacterClass.Name == "Cabalist") || (player.CharacterClass.Name == "Sorcerer") || (player.CharacterClass.Name == "Sorceress") || (player.CharacterClass.Name == "Animist") || (player.CharacterClass.Name == "Eldritch") || (player.CharacterClass.Name == "Enchanter") || (player.CharacterClass.Name == "Mentalist") || (player.CharacterClass.Name == "Druid") || (player.CharacterClass.Name == "Bonedancer") || (player.CharacterClass.Name == "Runemaster") || (player.CharacterClass.Name == "Spiritmaster") || (player.CharacterClass.Name == "Healer") || (player.CharacterClass.Name == "Shaman")) player.SkillSpecialtyPoints += 104;
-               // if ((player.CharacterClass.Name == "Minstrel") || (player.CharacterClass.Name == "Vampiir") || (player.CharacterClass.Name == "Valewalker") || (player.CharacterClass.Name == "Bard") || (player.CharacterClass.Name == "Savage") || (player.CharacterClass.Name == "Skald")) player.SkillSpecialtyPoints += 156;
-               // if ((player.CharacterClass.Name == "Friar") || (player.CharacterClass.Name == "Warden")) player.SkillSpecialtyPoints += 186;
-              //  if ((player.CharacterClass.Name == "Reaver") || (player.CharacterClass.Name == "Heretic") || (player.CharacterClass.Name == "Valkyrie") || (player.CharacterClass.Name == "Armsman") || (player.CharacterClass.Name == "Mercenary") || (player.CharacterClass.Name == "Paladin") || (player.CharacterClass.Name == "Scout") || (player.CharacterClass.Name == "Blademaster") || (player.CharacterClass.Name == "Champion") || (player.CharacterClass.Name == "Hero") || (player.CharacterClass.Name == "Ranger") || (player.CharacterClass.Name == "Hunter") || (player.CharacterClass.Name == "Berserker") || (player.CharacterClass.Name == "Thane") || (player.CharacterClass.Name == "Warrior")) player.SkillSpecialtyPoints += 210;
-              //  if ((player.CharacterClass.Name == "Nightshade") || (player.CharacterClass.Name == "Shadowblade")) player.SkillSpecialtyPoints += 230;
-               // if (player.CharacterClass.Name == "Infiltrator") player.SkillSpecialtyPoints += 261;
 
                 player.Level = 50;
                 player.Health = player.MaxHealth;
