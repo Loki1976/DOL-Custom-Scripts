@@ -385,31 +385,33 @@ namespace DOL.GS.Scripts
             {
                 if (_mBaseaf == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1467,
-                        Icon = 1467,
-                        Value = 78,
-                        Name = "Armor of the Realm",
-                        Description =
-                            "Adds to the recipient's Armor Factor (AF) resulting in better protection againts some forms of attack. It acts in addition to any armor the target is wearing.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 88001,
-                        Target = "Realm",
-                        Type = "ArmorFactorBuff",
-                        EffectGroup = 1
-                    };
+                        DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1467;
+                        spell.Icon = 1467;
+						spell.TooltipId = 9013;
+                        spell.Value = 78;
+                        spell.Name = "Armor of the Realm";
+                        spell.Description = "Adds to the recipient's Armor Factor (AF) resulting in better protection againts some forms of attack. It acts in addition to any armor the target is wearing.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000013;
+                        spell.Target = "Realm";
+                        spell.Type = "ArmorFactorBuff";
+						spell.PackageID = "BuffBotSpells";
+						spell.EffectGroup = 1;
+                        GameServer.Database.AddObject(spell);
+						
+						_mBaseaf = new Spell(spell, 50);
+                    }
 
                     //Effective buff 58
 
-                    _mBaseaf = new Spell(spell, 50);
+                    return _mBaseaf;
                 }
-                return _mBaseaf;
+                
             }
-        }
 
         /// <summary>
         ///     Merch Caster Base AF buff (VERIFIED)
@@ -420,31 +422,32 @@ namespace DOL.GS.Scripts
             {
                 if (_mCasterbaseaf == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1467,
-                        Icon = 1467,
-                        Value = 58,
-                        Name = "Armor of the Realm",
-                        Description =
-                            "Adds to the recipient's Armor Factor (AF) resulting in better protection againts some forms of attack. It acts in addition to any armor the target is wearing.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 89001,
-                        Target = "Realm",
-                        Type = "ArmorFactorBuff",
-                        EffectGroup = 1
-                    };
+                        DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1467;
+                        spell.Icon = 1467;
+						spell.TooltipId = 9014;
+                        spell.Value = 58;
+                        spell.Name = "Armor of the Realm";
+                        spell.Description = "Adds to the recipient's Armor Factor (AF) resulting in better protection againts some forms of attack. It acts in addition to any armor the target is wearing.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000014;
+                        spell.Target = "Realm";
+                        spell.Type = "ArmorFactorBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 1;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasterbaseaf = new Spell(spell, 50);
+					}
 
                     //Effective buff 58
-
-                    _mCasterbaseaf = new Spell(spell, 50);
+					return _mCasterbaseaf;
                 }
-                return _mCasterbaseaf;
+                
             }
-        }
 
         /// <summary>
         ///     Merch Base Str buff (VERIFIED)
@@ -455,30 +458,31 @@ namespace DOL.GS.Scripts
             {
                 if (_mBasestr == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1457,
-                        Icon = 1457,
-                        Value = 74,
-                        Name = "Strength of the Realm",
-                        Description = "Increases target's Strength.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 88002,
-                        Target = "Realm",
-                        Type = "StrengthBuff",
-                        EffectGroup = 4
-                    };
+                        DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1457;
+                        spell.Icon = 1457;
+						spell.TooltipId = 9015;
+                        spell.Value = 74;
+                        spell.Name = "Strength of the Realm";
+                        spell.Description = "Increases target's Strength.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000015;
+                        spell.Target = "Realm";
+                        spell.Type = "StrengthBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 4;
+						GameServer.Database.AddObject(spell);
+                    
+						_mBasestr = new Spell(spell, 50);
+					}
 
                     //effective buff 55
-
-                    _mBasestr = new Spell(spell, 50);
+					return _mBasestr;
                 }
-                return _mBasestr;
             }
-        }
 
         /// <summary>
         ///     Merch Caster Base Str buff (VERIFIED)
@@ -489,30 +493,31 @@ namespace DOL.GS.Scripts
             {
                 if (_mCasterbasestr == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1457,
-                        Icon = 1457,
-                        Value = 55,
-                        Name = "Strength of the Realm",
-                        Description = "Increases target's Strength.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 89002,
-                        Target = "Realm",
-                        Type = "StrengthBuff",
-                        EffectGroup = 4
-                    };
+                        DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1457;
+                        spell.Icon = 1457;
+						spell.TooltipId = 9016;
+                        spell.Value = 55;
+                        spell.Name = "Strength of the Realm";
+                        spell.Description = "Increases target's Strength.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000016;
+                        spell.Target = "Realm";
+                        spell.Type = "StrengthBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 4;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasterbasestr = new Spell(spell, 50);
+					}
 
                     //effective buff 55
-
-                    _mCasterbasestr = new Spell(spell, 50);
+					return _mCasterbasestr;
                 }
-                return _mCasterbasestr;
             }
-        }
 
         /// <summary>
         ///     Merch Base Con buff (VERIFIED)
@@ -523,30 +528,31 @@ namespace DOL.GS.Scripts
             {
                 if (_mBasecon == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1486,
-                        Icon = 1486,
-                        Value = 74,
-                        Name = "Fortitude of the Realm",
-                        Description = "Increases target's Constitution.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 88003,
-                        Target = "Realm",
-                        Type = "ConstitutionBuff",
-                        EffectGroup = 201
-                    };
+                        DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1486;
+                        spell.Icon = 1486;
+						spell.TooltipId = 9017;
+                        spell.Value = 74;
+                        spell.Name = "Fortitude of the Realm";
+                        spell.Description = "Increases target's Constitution.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000017;
+                        spell.Target = "Realm";
+                        spell.Type = "ConstitutionBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 201;
+						GameServer.Database.AddObject(spell);
+                    
+						_mBasecon = new Spell(spell, 50);
+					}
 
                     //effective buff 55
-
-                    _mBasecon = new Spell(spell, 50);
+					return _mBasecon;
                 }
-                return _mBasecon;
             }
-        }
 
         /// <summary>
         ///     Merch Caster Base Con buff (VERIFIED)
@@ -557,30 +563,31 @@ namespace DOL.GS.Scripts
             {
                 if (_mCasterbasecon == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1486,
-                        Icon = 1486,
-                        Value = 55,
-                        Name = "Fortitude of the Realm",
-                        Description = "Increases target's Constitution.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 89003,
-                        Target = "Realm",
-                        Type = "ConstitutionBuff",
-                        EffectGroup = 201
-                    };
+                        DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1486;
+                        spell.Icon = 1486;
+						spell.TooltipId = 9018;
+                        spell.Value = 55;
+                        spell.Name = "Fortitude of the Realm";
+                        spell.Description = "Increases target's Constitution.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000018;
+                        spell.Target = "Realm";
+                        spell.Type = "ConstitutionBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 201;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasterbasecon = new Spell(spell, 50);
+					}
 
                     //effective buff 55
-
-                    _mCasterbasecon = new Spell(spell, 50);
+					return _mCasterbasecon;
                 }
-                return _mCasterbasecon;
             }
-        }
 
         /// <summary>
         ///     Merch Base Dex buff (VERIFIED)
@@ -591,30 +598,31 @@ namespace DOL.GS.Scripts
             {
                 if (_mBasedex == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1476,
-                        Icon = 1476,
-                        Value = 74,
-                        Name = "Dexterity of the Realm",
-                        Description = "Increases Dexterity for a character.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 88004,
-                        Target = "Realm",
-                        Type = "DexterityBuff",
-                        EffectGroup = 202
-                    };
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1476;
+                        spell.Icon = 1476;
+						spell.TooltipId = 9019;
+                        spell.Value = 74;
+                        spell.Name = "Dexterity of the Realm";
+                        spell.Description = "Increases Dexterity for a character.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000019;
+                        spell.Target = "Realm";
+                        spell.Type = "DexterityBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 202;
+						GameServer.Database.AddObject(spell);
+                    
+						_mBasedex = new Spell(spell, 50);
+					}
 
                     //effective buff 55
-
-                    _mBasedex = new Spell(spell, 50);
+					return _mBasedex;
                 }
-                return _mBasedex;
             }
-        }
 
         /// <summary>
         ///     Merch Caster Base Dex buff (VERIFIED)
@@ -625,30 +633,31 @@ namespace DOL.GS.Scripts
             {
                 if (_mCasterbasedex == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1476,
-                        Icon = 1476,
-                        Value = 55,
-                        Name = "Dexterity of the Realm",
-                        Description = "Increases Dexterity for a character.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 89004,
-                        Target = "Realm",
-                        Type = "DexterityBuff",
-                        EffectGroup = 202
-                    };
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1476;
+                        spell.Icon = 1476;
+						spell.TooltipId = 9020;
+                        spell.Value = 55;
+                        spell.Name = "Dexterity of the Realm";
+                        spell.Description = "Increases Dexterity for a character.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000020;
+                        spell.Target = "Realm";
+                        spell.Type = "DexterityBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 202;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasterbasedex = new Spell(spell, 50);
+					}
 
                     //effective buff 55
-
-                    _mCasterbasedex = new Spell(spell, 50);
-                }
-                return _mCasterbasedex;
+					return _mCasterbasedex;                    
+                }             
             }
-        }
 
         /// <summary>
         ///     Merch Spec Str/Con buff (VERIFIED)
@@ -659,30 +668,30 @@ namespace DOL.GS.Scripts
             {
                 if (_mStrcon == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1517,
-                        Icon = 1517,
-                        Value = 114,
-                        Name = "Might of the Realm",
-                        Description = "Increases Str/Con for a character",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 88005,
-                        Target = "Realm",
-                        Type = "StrengthConstitutionBuff",
-                        EffectGroup = 204
-                    };
-
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1517;
+                        spell.Icon = 1517;
+						spell.TooltipId = 9021;
+                        spell.Value = 114;
+                        spell.Name = "Might of the Realm";
+                        spell.Description = "Increases Str/Con for a character";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000021;
+                        spell.Target = "Realm";
+                        spell.Type = "StrengthConstitutionBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 204;
+						GameServer.Database.AddObject(spell);
+                    
+						_mStrcon = new Spell(spell, 50);
+					}
                     //effective buff 85
-
-                    _mStrcon = new Spell(spell, 50);
-                }
-                return _mStrcon;
-            }
-        }
+					return _mStrcon;                    
+                }                
+            }        
 
         /// <summary>
         ///     Merch Caster Spec Str/Con buff (VERIFIED)
@@ -693,30 +702,31 @@ namespace DOL.GS.Scripts
             {
                 if (_mCasterstrcon == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1517,
-                        Icon = 1517,
-                        Value = 85,
-                        Name = "Might of the Realm",
-                        Description = "Increases Str/Con for a character",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 89005,
-                        Target = "Realm",
-                        Type = "StrengthConstitutionBuff",
-                        EffectGroup = 204
-                    };
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1517;
+                        spell.Icon = 1517;
+						spell.TooltipId = 9022;
+                        spell.Value = 85;
+                        spell.Name = "Might of the Realm";
+                        spell.Description = "Increases Str/Con for a character";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000022;
+                        spell.Target = "Realm";
+                        spell.Type = "StrengthConstitutionBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 204;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasterstrcon = new Spell(spell, 50);
+					}
 
                     //effective buff 85
-
-                    _mCasterstrcon = new Spell(spell, 50);
-                }
-                return _mCasterstrcon;
-            }
-        }
+					return _mCasterstrcon;                    
+                }               
+            }      
 
         /// <summary>
         ///     Merch Spec Dex/Qui buff (VERIFIED)
@@ -727,30 +737,31 @@ namespace DOL.GS.Scripts
             {
                 if (_mDexqui == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1526,
-                        Icon = 1526,
-                        Value = 114,
-                        Name = "Deftness of the Realm",
-                        Description = "Increases Dexterity and Quickness for a character.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 88006,
-                        Target = "Realm",
-                        Type = "DexterityQuicknessBuff",
-                        EffectGroup = 203
-                    };
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1526;
+                        spell.Icon = 1526;
+						spell.TooltipId = 9023;
+                        spell.Value = 114;
+                        spell.Name = "Deftness of the Realm";
+                        spell.Description = "Increases Dexterity and Quickness for a character.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000023;
+                        spell.Target = "Realm";
+                        spell.Type = "DexterityQuicknessBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 203;
+						GameServer.Database.AddObject(spell);
+                    
+						_mDexqui = new Spell(spell, 50);
+					}
 
                     //effective buff 85
-
-                    _mDexqui = new Spell(spell, 50);
-                }
-                return _mDexqui;
-            }
-        }
+					return _mDexqui;                   
+                }               
+            }       
 
         /// <summary>
         ///     Merch Caster Spec Dex/Qui buff (VERIFIED)
@@ -761,30 +772,31 @@ namespace DOL.GS.Scripts
             {
                 if (_mCasterdexqui == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1526,
-                        Icon = 1526,
-                        Value = 85,
-                        Name = "Deftness of the Realm",
-                        Description = "Increases Dexterity and Quickness for a character.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 89006,
-                        Target = "Realm",
-                        Type = "DexterityQuicknessBuff",
-                        EffectGroup = 203
-                    };
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1526;
+                        spell.Icon = 1526;
+						spell.TooltipId = 9024;
+                        spell.Value = 85;
+                        spell.Name = "Deftness of the Realm";
+                        spell.Description = "Increases Dexterity and Quickness for a character.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000024;
+                        spell.Target = "Realm";
+                        spell.Type = "DexterityQuicknessBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 203;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasterdexqui = new Spell(spell, 50);
+					}
 
                     //effective buff 85
-
-                    _mCasterdexqui = new Spell(spell, 50);
-                }
-                return _mCasterdexqui;
+					return _mCasterdexqui;                    
+                }                
             }
-        }
 
         /// <summary>
         ///     Merch Spec Acuity buff (VERIFIED)
@@ -795,30 +807,31 @@ namespace DOL.GS.Scripts
             {
                 if (_mAcuity == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1538,
-                        Icon = 1538,
-                        Value = 96,
-                        Name = "Acuity of the Realm",
-                        Description = "Increases Acuity (casting attribute) for a character.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 88007,
-                        Target = "Realm",
-                        Type = "AcuityBuff",
-                        EffectGroup = 200
-                    };
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1538;
+                        spell.Icon = 1538;
+						spell.TooltipId = 9025;
+                        spell.Value = 96;
+                        spell.Name = "Acuity of the Realm";
+                        spell.Description = "Increases Acuity (casting attribute) for a character.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000025;
+                        spell.Target = "Realm";
+                        spell.Type = "AcuityBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 200;
+						GameServer.Database.AddObject(spell);
+                    
+						_mAcuity = new Spell(spell, 50);
+				}
 
                     //effective buff 72;
-
-                    _mAcuity = new Spell(spell, 50);
+					return _mAcuity;
                 }
-                return _mAcuity;
             }
-        }
 
         /// <summary>
         ///     Merch Caster Spec Acuity buff (VERIFIED)
@@ -829,30 +842,31 @@ namespace DOL.GS.Scripts
             {
                 if (_mCasteracuity == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1538,
-                        Icon = 1538,
-                        Value = 72,
-                        Name = "Acuity of the Realm",
-                        Description = "Increases Acuity (casting attribute) for a character.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 89007,
-                        Target = "Realm",
-                        Type = "AcuityBuff",
-                        EffectGroup = 200
-                    };
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1538;
+                        spell.Icon = 1538;
+						spell.TooltipId = 9026;
+                        spell.Value = 72;
+                        spell.Name = "Acuity of the Realm";
+                        spell.Description = "Increases Acuity (casting attribute) for a character.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000026;
+                        spell.Target = "Realm";
+                        spell.Type = "AcuityBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 200;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasteracuity = new Spell(spell, 50);
+					}
 
                     //effective buff 72;
-
-                    _mCasteracuity = new Spell(spell, 50);
-                }
-                return _mCasteracuity;
+					return _mCasteracuity;   
+                }   
             }
-        }
 
         /// <summary>
         ///     Merch Spec Af buff (VERIFIED)
@@ -863,31 +877,32 @@ namespace DOL.GS.Scripts
             {
                 if (_mSpecaf == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1506,
-                        Icon = 1506,
-                        Value = 90,
-                        Name = "Armor of the Realm",
-                        Description =
-                            "Adds to the recipient's Armor Factor (AF), resulting in better protection against some forms of attack. It acts in addition to any armor the target is wearing.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 88014,
-                        Target = "Realm",
-                        Type = "ArmorFactorBuff",
-                        EffectGroup = 2
-                    };
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1506;
+                        spell.Icon = 1506;
+						spell.TooltipId = 9027;
+                        spell.Value = 90;
+                        spell.Name = "Armor of the Realm";
+                        spell.Description = "Adds to the recipient's Armor Factor (AF), resulting in better protection against some forms of attack. It acts in addition to any armor the target is wearing.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000027;
+                        spell.Target = "Realm";
+                        spell.Type = "ArmorFactorBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 2;
+						GameServer.Database.AddObject(spell);
+                    
+						_mSpecaf = new Spell(spell, 50);
+					}
 
                     //effective buff 67
-
-                    _mSpecaf = new Spell(spell, 50);
+					return _mSpecaf;
                 }
-                return _mSpecaf;
+                
             }
-        }
 
         /// <summary>
         ///     Merch Caster Spec Af buff (VERIFIED)
@@ -898,31 +913,31 @@ namespace DOL.GS.Scripts
             {
                 if (_mCasterspecaf == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 1506,
-                        Icon = 1506,
-                        Value = 67,
-                        Name = "Armor of the Realm",
-                        Description =
-                            "Adds to the recipient's Armor Factor (AF), resulting in better protection against some forms of attack. It acts in addition to any armor the target is wearing.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 89014,
-                        Target = "Realm",
-                        Type = "ArmorFactorBuff",
-                        EffectGroup = 2
-                    };
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1506;
+                        spell.Icon = 1506;
+						spell.TooltipId = 9028;
+                        spell.Value = 67;
+                        spell.Name = "Armor of the Realm";
+                        spell.Description = "Adds to the recipient's Armor Factor (AF), resulting in better protection against some forms of attack. It acts in addition to any armor the target is wearing.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000028;
+                        spell.Target = "Realm";
+                        spell.Type = "ArmorFactorBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 2;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasterspecaf = new Spell(spell, 50);
+					}
 
                     //effective buff 67
-
-                    _mCasterspecaf = new Spell(spell, 50);
-                }
-                return _mCasterspecaf;
+					return _mCasterspecaf;
+                }   
             }
-        }
 
         /// <summary>
         ///     Merch Haste buff (VERIFIED)
@@ -933,29 +948,29 @@ namespace DOL.GS.Scripts
             {
                 if (_mHaste == null)
                 {
-                    var spell = new DBSpell
-                    {
-                        AllowAdd = false,
-                        CastTime = 0,
-                        Concentration = 1,
-                        ClientEffect = 407,
-                        Icon = 407,
-                        Value = 15,
-                        Name = "Haste of the Realm",
-                        Description = "Increases the target's combat speed.",
-                        Range = WorldMgr.VISIBILITY_DISTANCE,
-                        SpellID = 88010,
-                        Target = "Realm",
-                        Type = "CombatSpeedBuff",
-                        EffectGroup = 100
-                    };
-
-
-                    _mHaste = new Spell(spell, 50);
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 407;
+                        spell.Icon = 407;
+						spell.TooltipId = 9029;
+                        spell.Value = 15;
+                        spell.Name = "Haste of the Realm";
+                        spell.Description = "Increases the target's combat speed.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000029;
+                        spell.Target = "Realm";
+                        spell.Type = "CombatSpeedBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 100;
+						GameServer.Database.AddObject(spell);
+                    
+						_mHaste = new Spell(spell, 50);
+					}
+					return _mHaste;
                 }
-                return _mHaste;
             }
-        }
 
         #endregion Spells
 
