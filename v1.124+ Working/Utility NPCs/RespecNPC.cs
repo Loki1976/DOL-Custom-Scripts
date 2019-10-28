@@ -35,8 +35,8 @@ namespace DOL.GS.Scripts
                             t.Out.SendMessage("You already have " + t.RespecAmountAllSkill + " Full skill respecs, to use them simply talk to your trainer and type /respec ALL", eChatType.CT_System, eChatLoc.CL_PopupWindow);
                             return true;
                         }
+						t.RespecAmountAllSkill++;
                         t.Out.SendMessage("You now have " + t.RespecAmountAllSkill + " Full skill respecs, to use them simply talk to your trainer and type /respec ALL", eChatType.CT_ScreenCenter, eChatLoc.CL_SystemWindow);
-                        t.RespecAmountAllSkill++;
                         t.Inventory.RemoveItem(item);
                         break;
                     }
@@ -48,8 +48,8 @@ namespace DOL.GS.Scripts
                             t.Out.SendMessage("You already have " + t.RespecAmountRealmSkill + " Realm skill respecs, to use them simply target your trainer and type /respec Realm", eChatType.CT_System, eChatLoc.CL_PopupWindow);
                             return true;
                         }
+						t.RespecAmountRealmSkill++;
                         t.Out.SendMessage("You now have " + t.RespecAmountRealmSkill + " Realm skill respecs, to use them simply talk to your trainer and type /respec Realm", eChatType.CT_ScreenCenter, eChatLoc.CL_SystemWindow);                        
-                        t.RespecAmountRealmSkill++;
                         t.Inventory.RemoveItem(item);
                         break;
                     }
@@ -61,8 +61,8 @@ namespace DOL.GS.Scripts
                             t.Out.SendMessage("You already have " + t.RespecAmountAllSkill + " Single skill Respecs, to use this simply target your trainer and type /respec <line>", eChatType.CT_System, eChatLoc.CL_PopupWindow);
                             return true;
                         }
-                        t.Out.SendMessage("You now have " + t.RespecAmountAllSkill + " Single skill Respecs, to use them simply talk to your trainer and type /respec <line>", eChatType.CT_ScreenCenter, eChatLoc.CL_SystemWindow);
-                        t.RespecAmountSingleSkill++;
+						t.RespecAmountSingleSkill++;
+                        t.Out.SendMessage("You now have " + t.RespecAmountAllSkill + " Single skill Respecs, to use them simply talk to your trainer and type /respec <line>", eChatType.CT_ScreenCenter, eChatLoc.CL_SystemWindow);                       
                         t.Inventory.RemoveItem(item);
                         break;
                     }
