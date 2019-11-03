@@ -254,6 +254,7 @@ namespace DOL.GS.Scripts
                 if (!player.HasEffect(CasterMerchAcuityBuff))
                     BuffPlayer(player, CasterMerchAcuityBuff, MerchSpecSpellLine);
                 if (!player.HasEffect(MerchHasteBuff)) BuffPlayer(player, MerchHasteBuff, MerchSpecSpellLine);
+				if (!player.HasEffect(MerchPoweregBuff)) BuffPlayer(player, MerchPoweregBuff, MerchSpecSpellLine);
             }
             else
             {
@@ -265,6 +266,7 @@ namespace DOL.GS.Scripts
                 if (!player.HasEffect(MerchStrConBuff)) BuffPlayer(player, MerchStrConBuff, MerchSpecSpellLine);
                 if (!player.HasEffect(MerchDexQuiBuff)) BuffPlayer(player, MerchDexQuiBuff, MerchSpecSpellLine);
                 if (!player.HasEffect(MerchHasteBuff)) BuffPlayer(player, MerchHasteBuff, MerchSpecSpellLine);
+				if (!player.HasEffect(MerchPoweregBuff)) BuffPlayer(player, MerchPoweregBuff, MerchSpecSpellLine);
             }
 
             if (!player.InCombat)
@@ -373,6 +375,7 @@ namespace DOL.GS.Scripts
         private static Spell _mCasteracuity;
         private static Spell _mCasterspecaf;
         private static Spell _mHaste;
+		private static Spell _mPowereg;
 
         #region Spells
 
@@ -939,7 +942,38 @@ namespace DOL.GS.Scripts
                 }   
             }
 
-        /// <summary>
+         /// <summary>
+        /// Bot PowerReg buff
+        /// </summary>
+        public static Spell MerchPoweregBuff
+        {
+            get
+            {
+                if (_mPowereg == null)
+                {
+                    DBSpell spell = new DBSpell();
+                    spell.AllowAdd = false;
+                    spell.CastTime = 0;
+                    spell.ClientEffect = 980;
+                    spell.Icon = 980;
+					spell.TooltipId = 9008;
+                    spell.Duration = 65535;
+                    spell.Value = 30;
+                    spell.Name = "Power Regeneration Buff";
+                    spell.Description = "Target regenerates power regeneration during the duration of the spell";
+                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                    spell.SpellID = 2000008;
+                    spell.Target = "Realm";
+                    spell.Type = "PowerRegenBuff";
+					spell.PackageID = "BuffBotSpells";
+                    GameServer.Database.AddObject(spell);
+                    _mPowereg = new Spell(spell, 50);
+                }
+                return _mPowereg;
+            }
+        }
+		
+		/// <summary>
         ///     Merch Haste buff (VERIFIED)
         /// </summary>
         public static Spell MerchHasteBuff

@@ -1,17 +1,3 @@
-using System;
-using DOL.GS;
-using DOL.GS.Spells;
-using DOL.GS.PacketHandler;
-using DOL.Language;
-using DOL.GS.Effects;
-using System.Collections;
-using System.Reflection;
-using DOL.Database;
-using DOL.Events;
-using DOL.GS.GameEvents;
-using DOL.GS.Scripts;
-using log4net;
-
 /* Summon Buffbot Command - Created By Deathwish, with a BIG THANKS to geshi for his help!
  * Version 1.0 (13/07/2010) For the use of all Dol Members.
  * 
@@ -32,52 +18,34 @@ using log4net;
  * 
  * Updated V1.2 (02/08/10)
  * Added a timer for 30 sec so player cant abuse the script.
+ * 
+ * Added check to to prevent recasting of buffs on buffed player
+ * Removed the Bounty Cost
 */
+
+
+
+#region
+
+using System;
+using System.Collections;
+using System.Reflection;
+using DOL.AI.Brain;
+using DOL.Database;
+using DOL.Events;
+using DOL.GS.Effects;
+using DOL.GS.PacketHandler;
+
+#endregion
 
 namespace DOL.GS.Commands
 {
-    [CmdAttribute(
+    [Cmd(
         "&bb",
         ePrivLevel.Player, // Set to player.
         "/bb - To Summon a Buffbot for the cost of 50bps")]
-
-    public class summonbbCommandHandler : AbstractCommandHandler, ICommandHandler
+    public class SummonbbCommandHandler : AbstractCommandHandler, ICommandHandler
     {
-        #region Command Timer
-        public const string Summon_Buff = "SummonBuff";
-        public void OnCommand(GameClient client, string[] args)
-        {
-            GamePlayer player = client.Player as GamePlayer;
-            long BuffTick = player.TempProperties.getProperty(Summon_Buff, 0L);
-            long changeTime = player.CurrentRegion.Time - BuffTick;
-            if (changeTime < 30000)
-            {
-                player.Out.SendMessage("You must wait " + ((30000 - changeTime) / 1000).ToString() + " more second to attempt to use this command!", eChatType.CT_System, eChatLoc.CL_ChatWindow);
-                return;
-            }
-            player.TempProperties.setProperty(Summon_Buff, player.CurrentRegion.Time);
-
-            #endregion Command timer
-      
-        #region Command spell Loader 
-            if (client.Player.BountyPoints >= 100) // how many bps are need to summon the buffbot
-            {
-                
-                SpellLine line = new SpellLine("BuffBotCast", "BuffBot Cast", "unknown", false);
-                    ISpellHandler spellHandler = ScriptMgr.CreateSpellHandler(client.Player, BuffBotSpell, line);
-                    if (spellHandler != null)
-                        spellHandler.StartSpell(client.Player);
-                    client.Player.RemoveBountyPoints(100); // removes the amount of bps from the player
-                    client.Player.Out.SendMessage("You have summoned a Buffbot!", eChatType.CT_Important, eChatLoc.CL_SystemWindow);
-                    client.Player.SaveIntoDatabase(); // saves new amount of bps
-                    client.Player.Out.SendUpdatePlayer(); // updates players bps 
-            }
-             #endregion command spell loader
-            else client.Player.Out.SendMessage("You don't have enough Bounty Pounts to summon a Buffbot!", eChatType.CT_System, eChatLoc.CL_SystemWindow);
-        }
-
-
-
         [ScriptLoadedEvent]
         public static void OnScriptLoaded(DOLEvent e, object sender, EventArgs args)
         {
@@ -85,18 +53,55 @@ namespace DOL.GS.Commands
             load = BuffBotSpell;
         }
 
+        #region Command Timer
+
+        public const string SummonBuff = "SummonBuff";
+
+        public void OnCommand(GameClient client, string[] args)
+        {
+            var player = client.Player;
+            var buffTick = player.TempProperties.getProperty(SummonBuff, 0L);
+            var changeTime = player.CurrentRegion.Time - buffTick;
+            if (changeTime < 30000)
+            {
+                player.Out.SendMessage(
+                    "You must wait " + ((30000 - changeTime)/1000) + " more second to attempt to use this command!",
+                    eChatType.CT_System, eChatLoc.CL_ChatWindow);
+                return;
+            }
+            player.TempProperties.setProperty(SummonBuff, player.CurrentRegion.Time);
+
+            #endregion Command timer
+            
+            #region Command spell Loader   
+		if (client.Player.BountyPoints >= 0) // how many bps are need to summon the buffbot
+		{
+
+            var line = new SpellLine("BuffBotCast", "BuffBot Cast", "unknown", false);
+            var spellHandler = ScriptMgr.CreateSpellHandler(client.Player, BuffBotSpell, line);
+            if (spellHandler != null)
+                spellHandler.StartSpell(client.Player);
+			client.Player.RemoveBountyPoints(0); // removes the amount of bps from the player
+            client.Player.Out.SendMessage("You have summoned a Buffbot!", eChatType.CT_Important, eChatLoc.CL_SystemWindow);
+            client.Player.SaveIntoDatabase(); // saves new amount of bps
+            client.Player.Out.SendUpdatePlayer(); // updates players bp
+		}
+
+            #endregion command spell loader
+			else client.Player.Out.SendMessage("You don't have enough Bounty Pounts to summon a Buffbot!", eChatType.CT_System, eChatLoc.CL_SystemWindow);
+        }
+
         #region Spell
-        protected static Spell m_buffbotSpell;
+
+        protected static Spell MBuffbotSpell;
+
         public static Spell BuffBotSpell
         {
             get
             {
-                if (m_buffbotSpell == null)
+                if (MBuffbotSpell == null)
                 {
-                    DBSpell spell = new DBSpell();
-                    spell.CastTime = 0;
-                    spell.ClientEffect = 0;
-                    spell.Duration = 15;
+                    var spell = new DBSpell {CastTime = 0, ClientEffect = 0, Duration = 15};
                     spell.Description = "Summons a Buffbot to your location for " + spell.Duration + " seconds.";
                     spell.Name = "BuffBot Spell";
                     spell.Type = "Summon A Buffbot";
@@ -104,56 +109,54 @@ namespace DOL.GS.Commands
                     spell.SpellID = 121232;
                     spell.Target = "Self";
                     spell.Value = BuffbotTemplate.TemplateId;
-                    m_buffbotSpell = new Spell(spell, 1);
-                    SkillBase.GetSpellList(GlobalSpellsLines.Item_Effects).Add(m_buffbotSpell);
+                    MBuffbotSpell = new Spell(spell, 1);
+                    SkillBase.GetSpellList(GlobalSpellsLines.Item_Effects).Add(MBuffbotSpell);
                 }
-                return m_buffbotSpell;
+                return MBuffbotSpell;
             }
         }
+
         #endregion
 
         #region Npc
-        protected static NpcTemplate m_buffbotTemplate;
+
+        protected static NpcTemplate MBuffbotTemplate;
+
         public static NpcTemplate BuffbotTemplate
         {
             get
             {
-                if (m_buffbotTemplate == null)
+                if (MBuffbotTemplate == null)
                 {
-                    m_buffbotTemplate = new NpcTemplate();
-                    m_buffbotTemplate.Flags += (byte)GameNPC.eFlags.GHOST + (byte)GameNPC.eFlags.PEACE;
-                    m_buffbotTemplate.Name = "Buffbot";
-                    m_buffbotTemplate.ClassType = "DOL.GS.Scripts.SummonedBuffbot";
-                    m_buffbotTemplate.Model = "50";
-                    m_buffbotTemplate.TemplateId = 93049;
-                    NpcTemplateMgr.AddTemplate(m_buffbotTemplate);
+                    MBuffbotTemplate = new NpcTemplate();
+                    MBuffbotTemplate.Flags += (byte) GameNPC.eFlags.GHOST + (byte) GameNPC.eFlags.PEACE;
+                    MBuffbotTemplate.Name = "Buffbot";
+                    MBuffbotTemplate.ClassType = "DOL.GS.Scripts.SummonedBuffbot";
+                    MBuffbotTemplate.Model = "50";
+                    MBuffbotTemplate.TemplateId = 93049;
+                    NpcTemplateMgr.AddTemplate(MBuffbotTemplate);
                 }
-                return m_buffbotTemplate;
+                return MBuffbotTemplate;
             }
         }
-        #endregion
 
+        #endregion
     }
 }
 
-#region Buffbot
 namespace DOL.GS.Scripts
-{ 
-
+{
     public class SummonedBuffbot : GameNPC
-
-  
     {
-        public SummonedBuffbot()
-            : base()
-        {
-        }
+        
+        private const bool BuffsPlayerPet = true;
+        private Queue _mBuffs = new Queue();
 
         public override int Concentration
         {
             get
             {
-                return 100000;
+                return 10000;
             }
         }
 
@@ -161,72 +164,59 @@ namespace DOL.GS.Scripts
         {
             get
             {
-                return 100000;
+                return 10000;
             }
         }
-
-        private static ArrayList m_baseSpells = null;
-        public static ArrayList BaseBuffs
-        {
-            get
-            {
-                if (m_baseSpells == null)
-                {
-                    m_baseSpells = new ArrayList();
-                    m_baseSpells.Add(BotStrBuff);
-                    m_baseSpells.Add(BotConBuff);
-                    m_baseSpells.Add(BotDexBuff);
-                }
-                return m_baseSpells;
-            }
-        }
-
-        private static ArrayList m_specSpells = null;
-        public static ArrayList SpecBuffs
-        {
-            get
-            {
-                if (m_specSpells == null)
-                {
-                    m_specSpells = new ArrayList();
-                    m_specSpells.Add(BotStrConBuff);
-                    m_specSpells.Add(BotDexQuiBuff);
-                    m_specSpells.Add(BotAcuityBuff);
-                    // m_specSpells.Add(BotSpecAFBuff);
-                }
-                return m_specSpells;
-            }
-        }
-
-        private static ArrayList m_otherSpells = null;
-        public static ArrayList OtherBuffs
-        {
-            get
-            {
-                if (m_otherSpells == null)
-                {
-                    m_otherSpells = new ArrayList();
-
-                    m_otherSpells.Add(BotHealBuff);
-                    m_otherSpells.Add(BotPoweregBuff);
-                    m_otherSpells.Add(BotDmgaddBuff);
-                    m_otherSpells.Add(BotHasteBuff);
-                    // m_otherSpells.Add(BotHPRegenBuff);
-                    m_otherSpells.Add(BotEndRegenBuff);
-                }
-                return m_otherSpells;
-            }
-        }
-
-        private Queue m_buffs = new Queue();
 
         public override bool AddToWorld()
         {
-            Model = 10;
-            GuildName = "Buffbot";
-            Level = 60;
+            switch (Realm)
+            {
+                case eRealm.Albion:Model = 10;break;
+                case eRealm.Hibernia: Model = 307;break;
+                case eRealm.Midgard:Model = 158;break;
+                case eRealm.None: Model = 10;break;
+            }
+           
+            GuildName = "Powered By Dawn Of Light";
             Realm = eRealm.None;
             return base.AddToWorld();
+        }
+
+        public void BuffPlayer(GamePlayer player, Spell spell, SpellLine spellLine)
+        {
+            if (_mBuffs == null)
+            {
+                _mBuffs = new Queue();
+            }
+
+            _mBuffs.Enqueue(new Container(spell, spellLine, player));
+
+            // don't forget his pet !
+            if (player.ControlledBrain != null)
+            {
+                if (player.ControlledBrain.Body != null)
+                {
+                    _mBuffs.Enqueue(new Container(spell, spellLine, player.ControlledBrain.Body));
+                }
+            }
+
+            CastBuffs();
+        }
+
+        public void CastBuffs()
+        {
+            while (_mBuffs.Count > 0)
+            {
+                var con = (Container) _mBuffs.Dequeue();
+
+                var spellHandler = ScriptMgr.CreateSpellHandler(this, con.Spell, con.SpellLine);
+
+                if (spellHandler != null)
+                {
+                    spellHandler.StartSpell(con.Target);
+                }
+            }
         }
 
         public override bool Interact(GamePlayer player)
@@ -234,599 +224,90 @@ namespace DOL.GS.Scripts
             if (!base.Interact(player)) return false;
             if (player.InCombat)
             {
-                player.Out.SendMessage("Buffbot says \"stop your combat if you want me to buff you!\"", eChatType.CT_Say, eChatLoc.CL_ChatWindow);
+                player.Out.SendMessage("Buffbot says \"stop your combat if you want me to buff you!\"", eChatType.CT_Say,
+                    eChatLoc.CL_ChatWindow);
                 return false;
             }
-            if (WorldMgr.GetDistance(this, player) > WorldMgr.INTERACT_DISTANCE)
+
+            if (GetDistanceTo(player) > WorldMgr.INTERACT_DISTANCE)
             {
-                player.Out.SendMessage("Buffbot says \"Get over here if you want me to buff you!\"", eChatType.CT_Say, eChatLoc.CL_ChatWindow);
+                player.Out.SendMessage("You are too far away " + GetName(0, false) + ".", eChatType.CT_System,
+                    eChatLoc.CL_SystemWindow);
                 return false;
             }
-            if (player.ChampionLevel == 10)
-            {
-                SendReply(player, "Do you wish to cure [Disease] or [Poison] ? or how would you like me buff you with [CL Resists]?");
-            }
+
+
             TurnTo(player, 3000);
-            lock (m_buffs.SyncRoot)
+            if (player.CharacterClass.ClassType == eClassType.ListCaster)
             {
-                foreach (Spell s in BaseBuffs)
-                {
-                    if (s.SpellType == "AcuityBuff" && player.CharacterClass.ClassType != eClassType.ListCaster)
-                        continue;
-                    Container con = new Container(s, BotBaseSpellLine, player);
-                    m_buffs.Enqueue(con);
-                }
+                if (!player.HasEffect(CasterMerchBaseAfBuff))
+                    BuffPlayer(player, CasterMerchBaseAfBuff, MerchBaseSpellLine);
+                if (!player.HasEffect(CasterMerchStrBuff)) BuffPlayer(player, CasterMerchStrBuff, MerchBaseSpellLine);
+                if (!player.HasEffect(CasterMerchDexBuff)) BuffPlayer(player, CasterMerchDexBuff, MerchBaseSpellLine);
+                if (!player.HasEffect(CasterMerchConBuff)) BuffPlayer(player, CasterMerchConBuff, MerchBaseSpellLine);
+                if (!player.HasEffect(CasterMerchSpecAfBuff))
+                    BuffPlayer(player, CasterMerchSpecAfBuff, MerchSpecSpellLine);
+                if (!player.HasEffect(CasterMerchStrConBuff))
+                    BuffPlayer(player, CasterMerchStrConBuff, MerchSpecSpellLine);
+                if (!player.HasEffect(CasterMerchDexQuiBuff))
+                    BuffPlayer(player, CasterMerchDexQuiBuff, MerchSpecSpellLine);
+                if (!player.HasEffect(CasterMerchAcuityBuff))
+                    BuffPlayer(player, CasterMerchAcuityBuff, MerchSpecSpellLine);
+                if (!player.HasEffect(MerchHasteBuff)) BuffPlayer(player, MerchHasteBuff, MerchSpecSpellLine);
+				if (!player.HasEffect(MerchPoweregBuff)) BuffPlayer(player, MerchPoweregBuff, MerchSpecSpellLine);
+            }
+            else
+            {
+                if (!player.HasEffect(MerchBaseAfBuff)) BuffPlayer(player, MerchBaseAfBuff, MerchBaseSpellLine);
+                if (!player.HasEffect(MerchStrBuff)) BuffPlayer(player, MerchStrBuff, MerchBaseSpellLine);
+                if (!player.HasEffect(MerchDexBuff)) BuffPlayer(player, MerchDexBuff, MerchBaseSpellLine);
+                if (!player.HasEffect(MerchConBuff)) BuffPlayer(player, MerchConBuff, MerchBaseSpellLine);
+                if (!player.HasEffect(MerchSpecAfBuff)) BuffPlayer(player, MerchSpecAfBuff, MerchSpecSpellLine);
+                if (!player.HasEffect(MerchStrConBuff)) BuffPlayer(player, MerchStrConBuff, MerchSpecSpellLine);
+                if (!player.HasEffect(MerchDexQuiBuff)) BuffPlayer(player, MerchDexQuiBuff, MerchSpecSpellLine);
+                if (!player.HasEffect(MerchHasteBuff)) BuffPlayer(player, MerchHasteBuff, MerchSpecSpellLine);
+				if (!player.HasEffect(MerchPoweregBuff)) BuffPlayer(player, MerchPoweregBuff, MerchSpecSpellLine);
+            }
 
-                foreach (Spell s in SpecBuffs)
+            if (!player.InCombat)
+            {
+                player.Health = MaxHealth;
+                if (player.CharacterClass.ID != (int) eCharacterClass.MaulerAlb &&
+                    player.CharacterClass.ID != (int) eCharacterClass.MaulerHib &&
+                    player.CharacterClass.ID != (int) eCharacterClass.MaulerMid &&
+                    player.CharacterClass.ID != (int) eCharacterClass.Vampiir)
                 {
-                    Container con = new Container(s, BotSpecSpellLine, player);
-                    m_buffs.Enqueue(con);
-                }
-
-                foreach (Spell s in OtherBuffs)
-                {
-                    if (s.SpellType == "PowerRegenBuff" && player.MaxMana == 0)
-                        continue;
-                    Container con = new Container(s, BotOtherSpellLine, player);
-                    m_buffs.Enqueue(con);
-                }
-                //if the player has sickness it will be removed.
-                GameSpellEffect effect = SpellHandler.FindEffectOnTarget(player, "PveResurrectionIllness");
-                if (effect != null)
-                {
-                    effect.Cancel(false);
-                    player.Out.SendMessage(GetName(0, false) + " cure your resurrection sickness.", eChatType.CT_System, eChatLoc.CL_SystemWindow);
+                    player.Mana = MaxMana;
                 }
             }
-            if (CurrentSpellHandler == null)
-                CastBuffs();
+
             return true;
-        }
-        public override bool WhisperReceive(GameLiving source, string text)
-        {
-            GamePlayer player = source as GamePlayer;
-            if (player != null)
-            {
-                //CastSpell(SkillBase.GetSpellByID(SPEEDOFTHEREALMID), SkillBase.GetSpellLine(GlobalSpellsLines.Mob_Spells));
-                //SendReply(player, "Do you wish to cure [Disease] or [Poison] ? or how would you like me buff you with [CL Resists]?");
-                if (player.ChampionLevel == 10)
-                {
-                    int DiseaseSpellID = 33026;
-                    int PoisonSpellID = 33003;
-                    int CLResist1 = 33029;
-                    int CLResist2 = 33030;
-                    int CLResist3 = 33031;
-                    this.TargetObject = player;
-                    switch (text)
-                    {
-                        case "Disease":
-                            CastSpell((SkillBase.GetSpellByID(DiseaseSpellID)), SkillBase.GetSpellLine(GlobalSpellsLines.Mob_Spells));
-                            break;
-                        case "Poison":
-                            CastSpell((SkillBase.GetSpellByID(PoisonSpellID)), SkillBase.GetSpellLine(GlobalSpellsLines.Mob_Spells));
-                            break;
-                        case "CL Resists":
-                            Container con = new Container((SkillBase.GetSpellByID(CLResist1)), SkillBase.GetSpellLine(GlobalSpellsLines.Mob_Spells), player);
-                            m_buffs.Enqueue(con);
-
-                            con = new Container((SkillBase.GetSpellByID(CLResist2)), SkillBase.GetSpellLine(GlobalSpellsLines.Mob_Spells), player);
-                            m_buffs.Enqueue(con);
-
-                            con = new Container((SkillBase.GetSpellByID(CLResist3)), SkillBase.GetSpellLine(GlobalSpellsLines.Mob_Spells), player);
-                            m_buffs.Enqueue(con);
-                            CastBuffs();
-                            break;
-                    }
-                }
-            }
-            return true;
-        }
-        public void CastBuffs()
-        {
-            Spell BuffSpell = null;
-            SpellLine BuffSpellLine = null;
-            GameLiving target = null;
-            while (m_buffs.Count > 0)
-            {
-                Container con = (Container)m_buffs.Dequeue();
-                BuffSpell = con.Spell;
-                target = con.Target;
-                BuffSpellLine = con.SpellLine;
-
-                ISpellHandler spellHandler = ScriptMgr.CreateSpellHandler(this, BuffSpell, BuffSpellLine);
-                if (spellHandler != null)
-                {
-                    TargetObject = target;
-                    TurnTo(target, 1000);
-                    spellHandler.StartSpell(target);
-                }
-            }
-        }
-
-        #region SpellCasting
-
-
-        private static SpellLine m_BotBaseSpellLine;
-        private static SpellLine m_BotSpecSpellLine;
-        private static SpellLine m_BotOtherSpellLine;
-        /// <summary>
-        /// Spell line used by bots
-        /// </summary>
-        public static SpellLine BotBaseSpellLine
-        {
-            get
-            {
-                if (m_BotBaseSpellLine == null)
-                    m_BotBaseSpellLine = new SpellLine("BotBaseSpellLine", "BuffBot Spells", "unknown", true);
-
-                return m_BotBaseSpellLine;
-            }
-        }
-
-        public static SpellLine BotSpecSpellLine
-        {
-            get
-            {
-                if (m_BotSpecSpellLine == null)
-                    m_BotSpecSpellLine = new SpellLine("BotSpecSpellLine", "BuffBot Spells", "unknown", false);
-
-                return m_BotSpecSpellLine;
-            }
-        }
-
-        public static SpellLine BotOtherSpellLine
-        {
-            get
-            {
-                if (m_BotOtherSpellLine == null)
-                    m_BotOtherSpellLine = new SpellLine("BotOtherSpellLine", "BuffBot Spells", "unknown", true);
-
-                return m_BotOtherSpellLine;
-            }
-        }
-
-        private static Spell m_baseaf;
-        private static Spell m_basestr;
-        private static Spell m_basecon;
-        private static Spell m_basedex;
-        private static Spell m_strcon;
-        private static Spell m_dexqui;
-        private static Spell m_acuity;
-        // private static Spell m_specaf;
-        private static Spell m_powereg;
-        private static Spell m_dmgadd;
-        private static Spell m_haste;
-        //  private static Spell m_hpRegen;
-        private static Spell m_endRegen;
-        private static Spell m_heal;
-
-        #region Spells
-
-        /// <summary>
-        /// Bot Base AF buff
-        /// </summary>
-        public static Spell BotBaseAFBuff
-        {
-            get
-            {
-                if (m_baseaf == null)
-                {
-                    DBSpell spell = new DBSpell();
-                    //spell.AutoSave = true;
-                    spell.CastTime = 0; spell.Radius = 200;
-                    spell.ClientEffect = 1467;
-                    spell.Icon = 1467;
-                    spell.Duration = 65535;
-                    spell.Value = 67;
-                    spell.Name = "Armorfactor Buff";
-                    spell.Description = "Adds to the recipient's Armor Factor (AF) resulting in better protection againts some forms of attack. It acts in addition to any armor the target is wearing.";
-                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100001;
-                    spell.Target = "Realm";
-                    spell.Type = "ArmorFactorBuff";
-                    spell.EffectGroup = 1;
-                    m_baseaf = new Spell(spell, 50);
-                }
-                return m_baseaf;
-            }
-        }
-
-        /// <summary>
-        /// Bot Str buff
-        /// </summary>
-        public static Spell BotStrBuff
-        {
-            get
-            {
-                if (m_basestr == null)
-                {
-                    DBSpell spell = new DBSpell();
-                    ////spell.AutoSave = false;
-                    spell.CastTime = 0; spell.Radius = 200;
-                    spell.ClientEffect = 1457;
-                    spell.Icon = 1457;
-                    spell.Duration = 65535;
-                    spell.Value = 50;
-                    spell.Name = "Strength Buff";
-                    spell.Description = "Increases target's Strength.";
-                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100002;
-                    spell.Target = "Realm";
-                    spell.Type = "StrengthBuff";
-                    spell.EffectGroup = 4;
-                    m_basestr = new Spell(spell, 50);
-                }
-                return m_basestr;
-            }
-        }
-
-        /// <summary>
-        /// Bot Con buff
-        /// </summary>
-        public static Spell BotConBuff
-        {
-            get
-            {
-                if (m_basecon == null)
-                {
-                    DBSpell spell = new DBSpell();
-                    //spell.AutoSave = false;
-                    spell.CastTime = 0; spell.Radius = 200;
-                    spell.ClientEffect = 1486;
-                    spell.Icon = 1486;
-                    spell.Duration = 65535;
-                    spell.Value = 44;
-                    spell.Name = "Constitution Buff";
-                    spell.Description = "Increases target's Constitution.";
-                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100003;
-                    spell.Target = "Realm";
-                    spell.Type = "ConstitutionBuff";
-                    m_basecon = new Spell(spell, 50);
-                }
-                return m_basecon;
-            }
-        }
-
-        /// <summary>
-        /// Bot Dex buff
-        /// </summary>
-        public static Spell BotDexBuff
-        {
-            get
-            {
-                if (m_basedex == null)
-                {
-                    DBSpell spell = new DBSpell();
-                    //spell.AutoSave = false;
-                    spell.CastTime = 0; spell.Radius = 200;
-                    spell.ClientEffect = 1476;
-                    spell.Icon = 1476;
-                    spell.Duration = 65535;
-                    spell.Value = 48;
-                    spell.Name = "Dexterity Buff";
-                    spell.Description = "Increases target's Dexterity.";
-                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100004;
-                    spell.Target = "Realm";
-                    spell.Type = "DexterityBuff";
-                    m_basedex = new Spell(spell, 50);
-                }
-                return m_basedex;
-            }
-        }
-
-        /// <summary>
-        /// Bot Str/Con buff
-        /// </summary>
-        public static Spell BotStrConBuff
-        {
-            get
-            {
-                if (m_strcon == null)
-                {
-                    DBSpell spell = new DBSpell();
-                    //spell.AutoSave = false;
-                    spell.CastTime = 0; spell.Radius = 200;
-                    spell.ClientEffect = 1517;
-                    spell.Icon = 1517;
-                    spell.Duration = 65535;
-                    spell.Value = 69;
-                    spell.Name = "Strength/Constitution Buff";
-                    spell.Description = "Increases Str/Con for a character";
-                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100005;
-                    spell.Target = "Realm";
-                    spell.Type = "StrengthConstitutionBuff";
-                    m_strcon = new Spell(spell, 50);
-                }
-                return m_strcon;
-            }
-        }
-
-        /// <summary>
-        /// Bot Dex/Qui buff
-        /// </summary>
-        public static Spell BotDexQuiBuff
-        {
-            get
-            {
-                if (m_dexqui == null)
-                {
-                    DBSpell spell = new DBSpell();
-                    //spell.AutoSave = false;
-                    spell.CastTime = 0; spell.Radius = 200;
-                    spell.ClientEffect = 1526;
-                    spell.Icon = 1526;
-                    spell.Duration = 65535;
-                    spell.Value = 75;
-                    spell.Name = "Dexterity/Quickness Buff";
-                    spell.Description = "Decreases Dexterity and Quickness for a character.";
-                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100006;
-                    spell.Target = "Realm";
-                    spell.Type = "DexterityQuicknessBuff";
-                    m_dexqui = new Spell(spell, 50);
-                }
-                return m_dexqui;
-            }
-        }
-
-        /// <summary>
-        /// Bot Acuity buff
-        /// </summary>
-        public static Spell BotAcuityBuff
-        {
-            get
-            {
-                if (m_acuity == null)
-                {
-                    DBSpell spell = new DBSpell();
-                    //spell.AutoSave = false;
-                    spell.CastTime = 0; spell.Radius = 200;
-                    spell.ClientEffect = 1538;
-                    spell.Icon = 1538;
-                    spell.Duration = 65535;
-                    spell.Value = 52;
-                    spell.Name = "Acuity Buff Buff";
-                    spell.Description = "Increases Acuity (casting attribute) for a character.";
-                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100007;
-                    spell.Target = "Realm";
-                    spell.Type = "AcuityBuff";
-                    m_acuity = new Spell(spell, 50);
-                }
-                return m_acuity;
-            }
-        }
-        /*/// <summary>
-        /// Bot Spec Af buff
-        /// </summary>
-        public static Spell BotSpecAFBuff
-        {
-            get
-            {
-                if (m_specaf == null)
-                {
-                    DBSpell spell = new DBSpell();
-                    //spell.AutoSave = false;
-                    spell.CastTime = 0; spell.Radius = 200;
-                    spell.ClientEffect = 1506;
-                    spell.Icon = 1506;
-                    spell.Duration = 65535;
-                    spell.Value = 52;
-                    spell.Name = "Spec AF Buff";
-                    spell.Description = "Adds to the recipient's Armor Factor (AF), resulting in better protection against some forms of attack. It acts in addition to any armor the target is wearing.";
-                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100014;
-                    spell.EffectGroup = 2;
-                    spell.Target = "Realm";
-                    spell.Type = "ArmorFactorBuff";
-                    m_specaf = new Spell(spell, 50);
-                }
-                return m_specaf;
-            }
-        }*/
-        /// <summary>
-        /// Bot PowerReg buff
-        /// </summary>
-        public static Spell BotPoweregBuff
-        {
-            get
-            {
-                if (m_powereg == null)
-                {
-                    DBSpell spell = new DBSpell();
-                    //spell.AutoSave = false;
-                    spell.CastTime = 0; spell.Radius = 200;
-                    spell.ClientEffect = 980;
-                    spell.Icon = 980;
-                    spell.Duration = 65535;
-                    spell.Value = 2;
-                    spell.Name = "Power Regeneration Buff";
-                    spell.Description = "Target regenerates power regeneration during the duration of the spell";
-                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100008;
-                    spell.Target = "Realm";
-                    spell.Type = "PowerRegenBuff";
-                    m_powereg = new Spell(spell, 50);
-                }
-                return m_powereg;
-            }
-        }
-
-        /// <summary>
-        /// Bot DamageAdd buff
-        /// </summary>
-        public static Spell BotDmgaddBuff
-        {
-            get
-            {
-                if (m_dmgadd == null)
-                {
-                    DBSpell spell = new DBSpell();
-                    ////spell.AutoSave = false;
-                    spell.CastTime = 0; spell.Radius = 200;
-                    spell.ClientEffect = 18;
-                    spell.Icon = 18;
-                    spell.Duration = 65535;
-                    spell.Damage = 5.0;
-                    spell.DamageType = 15;
-                    spell.Name = "Damage Add Buff";
-                    spell.Description = "Target's melee attacks do additional damage.";
-                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100009;
-                    spell.Target = "Realm";
-                    spell.Type = "DamageAdd";
-                    m_dmgadd = new Spell(spell, 50);
-                }
-                return m_dmgadd;
-            }
-        }
-
-        /// <summary>
-        /// Bot DamageAdd buff
-        /// </summary>
-        public static Spell BotHasteBuff
-        {
-            get
-            {
-                if (m_haste == null)
-                {
-                    DBSpell spell = new DBSpell();
-                    //spell.AutoSave = false;
-                    spell.CastTime = 0; spell.Radius = 200;
-                    spell.ClientEffect = 407;
-                    spell.Icon = 407;
-                    spell.Duration = 65535;
-                    spell.Value = 13;
-                    spell.Name = "Haste Buff";
-                    spell.Description = "Increases the target's combat speed.";
-                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100010;
-                    spell.Target = "Realm";
-                    spell.Type = "CombatSpeedBuff";
-                    m_haste = new Spell(spell, 50);
-                }
-                return m_haste;
-            }
-        }
-
-        //////
-
-
-        /* /// <summary>
-         /// Bot HP Regen buff
-         /// </summary>
-        public static Spell BotHPRegenBuff
-         {
-                 get
-                 {
-                         if (m_hpRegen == null)
-                         {
-                                 DBSpell spell = new DBSpell();
-                                 //spell.AutoSave = false;
-                                 spell.CastTime = 0; spell.Radius = 200;
-                                 spell.ClientEffect = 2430;
-             spell.Icon = 2430;
-             spell.Duration = 65535;
-                                 spell.Value = 180;
-                                 spell.Name = "Realm Speed";
-                                 spell.Description = "Increases the target's movement speed.";
-                                 spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                                 spell.SpellID = 24030;
-                                 spell.Target = "Realm";
-                                 spell.Type = "MovementSpeedBuff";
-                                 m_hpRegen = new Spell(spell, 50);
-                         }
-                         return m_hpRegen;
-                 }
-         }*/
-
-        /// <summary>
-        /// Bot End Regen buff
-        /// </summary>
-        public static Spell BotEndRegenBuff
-        {
-            get
-            {
-                if (m_endRegen == null)
-                {
-                    DBSpell spell = new DBSpell();
-                    //spell.AutoSave = false;
-                    spell.CastTime = 0; spell.Radius = 200;
-                    spell.ClientEffect = 3296;
-                    spell.Icon = 3296;
-                    spell.Duration = 65535;
-                    spell.Value = 4;
-                    spell.Name = "Endurance Regeneration Buff";
-                    spell.Description = "Target regenerates endurance during the duration of the spell.";
-                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100012;
-                    spell.Target = "Realm";
-                    spell.Type = "EnduranceRegenBuff";
-                    m_endRegen = new Spell(spell, 50);
-                }
-                return m_endRegen;
-            }
-        }
-
-        /// <summary>
-        /// Bot Heal buff
-        /// </summary>
-        public static Spell BotHealBuff
-        {
-            get
-            {
-                if (m_heal == null)
-                {
-                    DBSpell spell = new DBSpell();
-                    //spell.AutoSave = false;
-                    spell.CastTime = 0; spell.Radius = 200;
-                    spell.ClientEffect = 1424;
-                    spell.Value = 1;
-                    spell.Name = "Heal";
-                    spell.Description = "Heals the target.";
-                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
-                    spell.SpellID = 100013;
-                    spell.Target = "Realm";
-                    spell.Type = "Heal";
-                    m_heal = new Spell(spell, 50);
-                }
-                return m_heal;
-            }
-        }
-
-        #endregion Spells
-
-
-        #endregion SpellCasting
-
-        private void SendReply(GamePlayer target, string msg)
-        {
-            target.Out.SendMessage(msg, eChatType.CT_System, eChatLoc.CL_PopupWindow);
         }
 
         public class Container
         {
             private Spell m_spell;
+
             public Spell Spell
             {
                 get { return m_spell; }
             }
 
             private SpellLine m_spellLine;
+
             public SpellLine SpellLine
             {
                 get { return m_spellLine; }
             }
 
             private GameLiving m_target;
+
             public GameLiving Target
             {
                 get { return m_target; }
                 set { m_target = value; }
             }
+
             public Container(Spell spell, SpellLine spellLine, GameLiving target)
             {
                 m_spell = spell;
@@ -834,79 +315,773 @@ namespace DOL.GS.Scripts
                 m_target = target;
             }
         }
-    }
 
+        #region SpellCasting
+
+        private static SpellLine _mMerchBaseSpellLine;
+        private static SpellLine _mMerchSpecSpellLine;
+        private static SpellLine _mMerchOtherSpellLine;
+
+        /// <summary>
+        ///     Spell line used by Merchs
+        /// </summary>
+        public static SpellLine MerchBaseSpellLine
+        {
+            get
+            {
+                if (_mMerchBaseSpellLine == null)
+                    _mMerchBaseSpellLine = new SpellLine("MerchBaseSpellLine", "BuffMerch Spells", "unknown", true);
+
+                return _mMerchBaseSpellLine;
+            }
+        }
+
+        public static SpellLine MerchSpecSpellLine
+        {
+            get
+            {
+                if (_mMerchSpecSpellLine == null)
+                    _mMerchSpecSpellLine = new SpellLine("MerchSpecSpellLine", "BuffMerch Spells", "unknown", false);
+
+                return _mMerchSpecSpellLine;
+            }
+        }
+
+        public static SpellLine MerchOtherSpellLine
+        {
+            get
+            {
+                if (_mMerchOtherSpellLine == null)
+                    _mMerchOtherSpellLine = new SpellLine("MerchOtherSpellLine", "BuffMerch Spells", "unknown", true);
+
+                return _mMerchOtherSpellLine;
+            }
+        }
+
+        private static Spell _mBaseaf;
+        private static Spell _mBasestr;
+        private static Spell _mBasecon;
+        private static Spell _mBasedex;
+        private static Spell _mStrcon;
+        private static Spell _mDexqui;
+        private static Spell _mAcuity;
+        private static Spell _mSpecaf;
+        private static Spell _mCasterbaseaf;
+        private static Spell _mCasterbasestr;
+        private static Spell _mCasterbasecon;
+        private static Spell _mCasterbasedex;
+        private static Spell _mCasterstrcon;
+        private static Spell _mCasterdexqui;
+        private static Spell _mCasteracuity;
+        private static Spell _mCasterspecaf;
+        private static Spell _mHaste;
+		private static Spell _mPowereg;
+
+        #region Spells
+
+        /// <summary>
+        ///     Merch Base AF buff (VERIFIED)
+        /// </summary>
+        public static Spell MerchBaseAfBuff
+        {
+            get
+            {
+                if (_mBaseaf == null)
+                {
+                        DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1467;
+                        spell.Icon = 1467;
+						spell.TooltipId = 9013;
+                        spell.Value = 78;
+                        spell.Name = "Armor of the Realm";
+                        spell.Description = "Adds to the recipient's Armor Factor (AF) resulting in better protection againts some forms of attack. It acts in addition to any armor the target is wearing.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000013;
+                        spell.Target = "Realm";
+                        spell.Type = "ArmorFactorBuff";
+						spell.PackageID = "BuffBotSpells";
+						spell.EffectGroup = 1;
+                        GameServer.Database.AddObject(spell);
+						
+						_mBaseaf = new Spell(spell, 50);
+                    }
+
+                    //Effective buff 58
+
+                    return _mBaseaf;
+                }
+                
+            }
+
+        /// <summary>
+        ///     Merch Caster Base AF buff (VERIFIED)
+        /// </summary>
+        public static Spell CasterMerchBaseAfBuff
+        {
+            get
+            {
+                if (_mCasterbaseaf == null)
+                {
+                        DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1467;
+                        spell.Icon = 1467;
+						spell.TooltipId = 9014;
+                        spell.Value = 58;
+                        spell.Name = "Armor of the Realm";
+                        spell.Description = "Adds to the recipient's Armor Factor (AF) resulting in better protection againts some forms of attack. It acts in addition to any armor the target is wearing.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000014;
+                        spell.Target = "Realm";
+                        spell.Type = "ArmorFactorBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 1;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasterbaseaf = new Spell(spell, 50);
+					}
+
+                    //Effective buff 58
+					return _mCasterbaseaf;
+                }
+                
+            }
+
+        /// <summary>
+        ///     Merch Base Str buff (VERIFIED)
+        /// </summary>
+        public static Spell MerchStrBuff
+        {
+            get
+            {
+                if (_mBasestr == null)
+                {
+                        DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1457;
+                        spell.Icon = 1457;
+						spell.TooltipId = 9015;
+                        spell.Value = 74;
+                        spell.Name = "Strength of the Realm";
+                        spell.Description = "Increases target's Strength.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000015;
+                        spell.Target = "Realm";
+                        spell.Type = "StrengthBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 4;
+						GameServer.Database.AddObject(spell);
+                    
+						_mBasestr = new Spell(spell, 50);
+					}
+
+                    //effective buff 55
+					return _mBasestr;
+                }
+            }
+
+        /// <summary>
+        ///     Merch Caster Base Str buff (VERIFIED)
+        /// </summary>
+        public static Spell CasterMerchStrBuff
+        {
+            get
+            {
+                if (_mCasterbasestr == null)
+                {
+                        DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1457;
+                        spell.Icon = 1457;
+						spell.TooltipId = 9016;
+                        spell.Value = 55;
+                        spell.Name = "Strength of the Realm";
+                        spell.Description = "Increases target's Strength.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000016;
+                        spell.Target = "Realm";
+                        spell.Type = "StrengthBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 4;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasterbasestr = new Spell(spell, 50);
+					}
+
+                    //effective buff 55
+					return _mCasterbasestr;
+                }
+            }
+
+        /// <summary>
+        ///     Merch Base Con buff (VERIFIED)
+        /// </summary>
+        public static Spell MerchConBuff
+        {
+            get
+            {
+                if (_mBasecon == null)
+                {
+                        DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1486;
+                        spell.Icon = 1486;
+						spell.TooltipId = 9017;
+                        spell.Value = 74;
+                        spell.Name = "Fortitude of the Realm";
+                        spell.Description = "Increases target's Constitution.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000017;
+                        spell.Target = "Realm";
+                        spell.Type = "ConstitutionBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 201;
+						GameServer.Database.AddObject(spell);
+                    
+						_mBasecon = new Spell(spell, 50);
+					}
+
+                    //effective buff 55
+					return _mBasecon;
+                }
+            }
+
+        /// <summary>
+        ///     Merch Caster Base Con buff (VERIFIED)
+        /// </summary>
+        public static Spell CasterMerchConBuff
+        {
+            get
+            {
+                if (_mCasterbasecon == null)
+                {
+                        DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1486;
+                        spell.Icon = 1486;
+						spell.TooltipId = 9018;
+                        spell.Value = 55;
+                        spell.Name = "Fortitude of the Realm";
+                        spell.Description = "Increases target's Constitution.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000018;
+                        spell.Target = "Realm";
+                        spell.Type = "ConstitutionBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 201;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasterbasecon = new Spell(spell, 50);
+					}
+
+                    //effective buff 55
+					return _mCasterbasecon;
+                }
+            }
+
+        /// <summary>
+        ///     Merch Base Dex buff (VERIFIED)
+        /// </summary>
+        public static Spell MerchDexBuff
+        {
+            get
+            {
+                if (_mBasedex == null)
+                {
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1476;
+                        spell.Icon = 1476;
+						spell.TooltipId = 9019;
+                        spell.Value = 74;
+                        spell.Name = "Dexterity of the Realm";
+                        spell.Description = "Increases Dexterity for a character.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000019;
+                        spell.Target = "Realm";
+                        spell.Type = "DexterityBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 202;
+						GameServer.Database.AddObject(spell);
+                    
+						_mBasedex = new Spell(spell, 50);
+					}
+
+                    //effective buff 55
+					return _mBasedex;
+                }
+            }
+
+        /// <summary>
+        ///     Merch Caster Base Dex buff (VERIFIED)
+        /// </summary>
+        public static Spell CasterMerchDexBuff
+        {
+            get
+            {
+                if (_mCasterbasedex == null)
+                {
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1476;
+                        spell.Icon = 1476;
+						spell.TooltipId = 9020;
+                        spell.Value = 55;
+                        spell.Name = "Dexterity of the Realm";
+                        spell.Description = "Increases Dexterity for a character.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000020;
+                        spell.Target = "Realm";
+                        spell.Type = "DexterityBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 202;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasterbasedex = new Spell(spell, 50);
+					}
+
+                    //effective buff 55
+					return _mCasterbasedex;                    
+                }             
+            }
+
+        /// <summary>
+        ///     Merch Spec Str/Con buff (VERIFIED)
+        /// </summary>
+        public static Spell MerchStrConBuff
+        {
+            get
+            {
+                if (_mStrcon == null)
+                {
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1517;
+                        spell.Icon = 1517;
+						spell.TooltipId = 9021;
+                        spell.Value = 114;
+                        spell.Name = "Might of the Realm";
+                        spell.Description = "Increases Str/Con for a character";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000021;
+                        spell.Target = "Realm";
+                        spell.Type = "StrengthConstitutionBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 204;
+						GameServer.Database.AddObject(spell);
+                    
+						_mStrcon = new Spell(spell, 50);
+					}
+                    //effective buff 85
+					return _mStrcon;                    
+                }                
+            }        
+
+        /// <summary>
+        ///     Merch Caster Spec Str/Con buff (VERIFIED)
+        /// </summary>
+        public static Spell CasterMerchStrConBuff
+        {
+            get
+            {
+                if (_mCasterstrcon == null)
+                {
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1517;
+                        spell.Icon = 1517;
+						spell.TooltipId = 9022;
+                        spell.Value = 85;
+                        spell.Name = "Might of the Realm";
+                        spell.Description = "Increases Str/Con for a character";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000022;
+                        spell.Target = "Realm";
+                        spell.Type = "StrengthConstitutionBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 204;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasterstrcon = new Spell(spell, 50);
+					}
+
+                    //effective buff 85
+					return _mCasterstrcon;                    
+                }               
+            }      
+
+        /// <summary>
+        ///     Merch Spec Dex/Qui buff (VERIFIED)
+        /// </summary>
+        public static Spell MerchDexQuiBuff
+        {
+            get
+            {
+                if (_mDexqui == null)
+                {
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1526;
+                        spell.Icon = 1526;
+						spell.TooltipId = 9023;
+                        spell.Value = 114;
+                        spell.Name = "Deftness of the Realm";
+                        spell.Description = "Increases Dexterity and Quickness for a character.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000023;
+                        spell.Target = "Realm";
+                        spell.Type = "DexterityQuicknessBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 203;
+						GameServer.Database.AddObject(spell);
+                    
+						_mDexqui = new Spell(spell, 50);
+					}
+
+                    //effective buff 85
+					return _mDexqui;                   
+                }               
+            }       
+
+        /// <summary>
+        ///     Merch Caster Spec Dex/Qui buff (VERIFIED)
+        /// </summary>
+        public static Spell CasterMerchDexQuiBuff
+        {
+            get
+            {
+                if (_mCasterdexqui == null)
+                {
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1526;
+                        spell.Icon = 1526;
+						spell.TooltipId = 9024;
+                        spell.Value = 85;
+                        spell.Name = "Deftness of the Realm";
+                        spell.Description = "Increases Dexterity and Quickness for a character.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000024;
+                        spell.Target = "Realm";
+                        spell.Type = "DexterityQuicknessBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 203;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasterdexqui = new Spell(spell, 50);
+					}
+
+                    //effective buff 85
+					return _mCasterdexqui;                    
+                }                
+            }
+
+        /// <summary>
+        ///     Merch Spec Acuity buff (VERIFIED)
+        /// </summary>
+        public static Spell MerchAcuityBuff
+        {
+            get
+            {
+                if (_mAcuity == null)
+                {
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1538;
+                        spell.Icon = 1538;
+						spell.TooltipId = 9025;
+                        spell.Value = 96;
+                        spell.Name = "Acuity of the Realm";
+                        spell.Description = "Increases Acuity (casting attribute) for a character.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000025;
+                        spell.Target = "Realm";
+                        spell.Type = "AcuityBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 200;
+						GameServer.Database.AddObject(spell);
+                    
+						_mAcuity = new Spell(spell, 50);
+				}
+
+                    //effective buff 72;
+					return _mAcuity;
+                }
+            }
+
+        /// <summary>
+        ///     Merch Caster Spec Acuity buff (VERIFIED)
+        /// </summary>
+        public static Spell CasterMerchAcuityBuff
+        {
+            get
+            {
+                if (_mCasteracuity == null)
+                {
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1538;
+                        spell.Icon = 1538;
+						spell.TooltipId = 9026;
+                        spell.Value = 72;
+                        spell.Name = "Acuity of the Realm";
+                        spell.Description = "Increases Acuity (casting attribute) for a character.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000026;
+                        spell.Target = "Realm";
+                        spell.Type = "AcuityBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 200;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasteracuity = new Spell(spell, 50);
+					}
+
+                    //effective buff 72;
+					return _mCasteracuity;   
+                }   
+            }
+
+        /// <summary>
+        ///     Merch Spec Af buff (VERIFIED)
+        /// </summary>
+        public static Spell MerchSpecAfBuff
+        {
+            get
+            {
+                if (_mSpecaf == null)
+                {
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1506;
+                        spell.Icon = 1506;
+						spell.TooltipId = 9027;
+                        spell.Value = 90;
+                        spell.Name = "Armor of the Realm";
+                        spell.Description = "Adds to the recipient's Armor Factor (AF), resulting in better protection against some forms of attack. It acts in addition to any armor the target is wearing.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000027;
+                        spell.Target = "Realm";
+                        spell.Type = "ArmorFactorBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 2;
+						GameServer.Database.AddObject(spell);
+                    
+						_mSpecaf = new Spell(spell, 50);
+					}
+
+                    //effective buff 67
+					return _mSpecaf;
+                }
+                
+            }
+
+        /// <summary>
+        ///     Merch Caster Spec Af buff (VERIFIED)
+        /// </summary>
+        public static Spell CasterMerchSpecAfBuff
+        {
+            get
+            {
+                if (_mCasterspecaf == null)
+                {
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 1506;
+                        spell.Icon = 1506;
+						spell.TooltipId = 9028;
+                        spell.Value = 67;
+                        spell.Name = "Armor of the Realm";
+                        spell.Description = "Adds to the recipient's Armor Factor (AF), resulting in better protection against some forms of attack. It acts in addition to any armor the target is wearing.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000028;
+                        spell.Target = "Realm";
+                        spell.Type = "ArmorFactorBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 2;
+						GameServer.Database.AddObject(spell);
+                    
+						_mCasterspecaf = new Spell(spell, 50);
+					}
+
+                    //effective buff 67
+					return _mCasterspecaf;
+                }   
+            }
+
+         /// <summary>
+        /// Bot PowerReg buff
+        /// </summary>
+        public static Spell MerchPoweregBuff
+        {
+            get
+            {
+                if (_mPowereg == null)
+                {
+                    DBSpell spell = new DBSpell();
+                    spell.AllowAdd = false;
+                    spell.CastTime = 0;
+                    spell.ClientEffect = 980;
+                    spell.Icon = 980;
+					spell.TooltipId = 9008;
+                    spell.Duration = 65535;
+                    spell.Value = 30;
+                    spell.Name = "Power Regeneration Buff";
+                    spell.Description = "Target regenerates power regeneration during the duration of the spell";
+                    spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                    spell.SpellID = 2000008;
+                    spell.Target = "Realm";
+                    spell.Type = "PowerRegenBuff";
+					spell.PackageID = "BuffBotSpells";
+                    GameServer.Database.AddObject(spell);
+                    _mPowereg = new Spell(spell, 50);
+                }
+                return _mPowereg;
+            }
+        }
+		
+		/// <summary>
+        ///     Merch Haste buff (VERIFIED)
+        /// </summary>
+        public static Spell MerchHasteBuff
+        {
+            get
+            {
+                if (_mHaste == null)
+                {
+						DBSpell spell = new DBSpell();
+                        spell.AllowAdd = false;
+                        spell.CastTime = 0;
+                        spell.Concentration = 1;
+                        spell.ClientEffect = 407;
+                        spell.Icon = 407;
+						spell.TooltipId = 9029;
+                        spell.Value = 15;
+                        spell.Name = "Haste of the Realm";
+                        spell.Description = "Increases the target's combat speed.";
+                        spell.Range = WorldMgr.VISIBILITY_DISTANCE;
+                        spell.SpellID = 2000029;
+                        spell.Target = "Realm";
+                        spell.Type = "CombatSpeedBuff";
+						spell.PackageID = "BuffBotSpells";
+                        spell.EffectGroup = 100;
+						GameServer.Database.AddObject(spell);
+                    
+						_mHaste = new Spell(spell, 50);
+					}
+					return _mHaste;
+                }
+            }
+
+        #endregion Spells
+
+        #endregion SpellCasting
+    }
 }
-#endregion Buffbot
 
 #region Summon 
 
 namespace DOL.GS.Spells
 {
-    [SpellHandlerAttribute("Summon A Buffbot")]
+    [SpellHandler("Summon A Buffbot")]
     public class SummonBuffbotSpellHandler : SpellHandler
     {
+        protected GameNPC Npc;
+
         public SummonBuffbotSpellHandler(GameLiving caster, Spell spell, SpellLine line)
             : base(caster, spell, line)
-        { }
-
-        protected GameNPC npc = null;
+        {
+        }
 
         public override void ApplyEffectOnTarget(GameLiving target, double effectiveness)
         {
-            NpcTemplate template = NpcTemplateMgr.GetTemplate((int)m_spell.Value);
+            var template = NpcTemplateMgr.GetTemplate((int) Spell.Value);
 
             base.ApplyEffectOnTarget(target, effectiveness);
 
             if (template.ClassType == "")
-                npc = new GameNPC();
+                Npc = new GameNPC();
             else
             {
                 try
                 {
-                    npc = new GameNPC();
-                    npc = (GameNPC)Assembly.GetAssembly(typeof(GameServer)).CreateInstance(template.ClassType, false);
-
+                    Npc = new GameNPC();
+                    Npc = (GameNPC) Assembly.GetAssembly(typeof (GameServer)).CreateInstance(template.ClassType, false);
                 }
                 catch (Exception e)
                 {
                 }
-                if (npc == null)
+                if (Npc == null)
                 {
                     try
                     {
-                        npc = (GameNPC)Assembly.GetExecutingAssembly().CreateInstance(template.ClassType, false);
+                        Npc = (GameNPC) Assembly.GetExecutingAssembly().CreateInstance(template.ClassType, false);
                     }
                     catch (Exception e)
                     {
                     }
                 }
-                if (npc == null)
+                if (Npc == null)
                 {
-                    MessageToCaster("There was an error creating an instance of " + template.ClassType + "!", DOL.GS.PacketHandler.eChatType.CT_System);
+                    MessageToCaster("There was an error creating an instance of " + template.ClassType + "!",
+                        eChatType.CT_System);
                     return;
                 }
-                npc.LoadTemplate(template);
+                Npc.LoadTemplate(template);
             }
-            GameSpellEffect effect = CreateSpellEffect(npc, effectiveness);
+           
             int x, y;
-            m_caster.GetSpotFromHeading(64, out x, out y);
-            npc.X = x;
-            npc.Y = y;
-            npc.Z = m_caster.Z;
-            npc.CurrentRegion = m_caster.CurrentRegion;
-            npc.Heading = (ushort)((m_caster.Heading + 2048) % 4096);
-            npc.Realm = m_caster.Realm;
-            npc.CurrentSpeed = 0;
-            npc.Level = 1;
-            npc.SetOwnBrain(new AI.Brain.BlankBrain());
-            npc.AddToWorld();
+            Caster.GetSpotFromHeading(64, out x, out y);
+            Npc.X = x;
+            Npc.Y = y;
+            Npc.Z = Caster.Z;
+            Npc.CurrentRegion = Caster.CurrentRegion;
+            Npc.Heading = (ushort) ((Caster.Heading + 2048)%4096);
+            Npc.Realm = Caster.Realm;
+            Npc.CurrentSpeed = 0;
+            Npc.Level = Caster.Level;
+            Npc.Name = Caster.Name + " Buffbot " + "";
+            Npc.SetOwnBrain(new BlankBrain());
+            Npc.AddToWorld();
         }
 
         public override int OnEffectExpires(GameSpellEffect effect, bool noMessages)
         {
-            if (npc != null)
-                npc.Delete();
+            if (Npc != null)
+                Npc.Delete();
             return base.OnEffectExpires(effect, noMessages);
         }
 
@@ -916,6 +1091,5 @@ namespace DOL.GS.Spells
         }
     }
 }
-
 
 #endregion
