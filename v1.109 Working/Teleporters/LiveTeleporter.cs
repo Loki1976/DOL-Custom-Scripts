@@ -5,7 +5,6 @@ using System.Text;
 using System.Reflection;
 
 using DOL;
-using DOL.Database;
 using DOL.Events;
 using DOL.GS;
 using DOL.GS.Housing;
@@ -45,7 +44,7 @@ namespace DOL.GS.Scripts
                 default:
                     break;
             }
-                    Level = 1;
+                    Level = 75;
                     Size = 50;
             //Fix Templates Alb is this below mid and hib are different
 
@@ -63,161 +62,81 @@ namespace DOL.GS.Scripts
                     SwitchWeapon(GameLiving.eActiveWeaponSlot.TwoHanded); // Pick his active weapon to show as equiped
             return base.AddToWorld(); // Finish up and add him to the world.
         }
-/*
-									"[Forest Sauvage] in the Frontiers\n" +
-                                    "[Caer Erasleign] in the Frontiers\n" +
-                                    "[alb] side of Agramon in the Frontiers\n" +
-                                    "[hib] side of Agramon in the Frontiers\n" +
-                                    "[mid] side of Agramon in the Frontiers\n" +
-*/
+
         public override bool Interact(GamePlayer player) // What to do when a player clicks on me
         {
             if (!base.Interact(player)) return false;
-			
-			if (player.Client.Account.PrivLevel == (uint)ePrivLevel.Player && player.Realm!=this.Realm)
-			{
-				player.Out.SendMessage("You are my enemy !", eChatType.CT_System, eChatLoc.CL_SystemWindow);
-				return false;
-			}
-			
-			TargetObject = player;
-			CastSpell(SkillBase.GetSpellByID(2430), SkillBase.GetSpellLine(GlobalSpellsLines.Mob_Spells));
-			
-			bool bTest=false;
- 			if (player.Name.Length >= 4)
-            {
-                if (player.Name.Substring(0, 4).ToLower() == "test")
-                {
-					bTest=true;
-				}
-			}
-			if (bTest == true) 
-			{
-				player.Out.SendMessage("Test character can not use teleporter !", eChatType.CT_System, eChatLoc.CL_SystemWindow);
-				return false;
-			}
-
-			 //         if (player.Level < 50)
-            {
-                player.Out.SendMessage("You can use /go command : /go <playername>", eChatType.CT_Broadcast, eChatLoc.CL_SystemWindow);
-            }
-
-			if (Util.Chance(100))
-			{
-				foreach (InventoryItem item in player.Inventory.GetItemRange(eInventorySlot.FirstBackpack, eInventorySlot.LastBackpack))
-				{
-					if (item.Id_nb == "whria_rp")
-					{
-						player.GainRealmPoints(item.Count*1000);
-						player.Inventory.RemoveItem(item);
-					}
-					if (item.Id_nb == "whria_bp")
-					{
-						player.GainBountyPoints(item.Count*100);
-						player.Inventory.RemoveItem(item);
-					}
-				}
-			}
-
-			
-
-			
             switch (Realm)
             {
                 case eRealm.Albion:
                     SayTo(player, "Greetings, I am able to channel energy to transport you to distant lands. I can send you to the following locations:\n" +
-                                    "[New Frontiers] the Battleground\n" +
-                                    "[Agramon] the dragon's world\n" +
-									"[Cotswold]\n" +
+                                    "[Forest Sauvage] in the Frontiers\n" +
                                     "[Castle Sauvage] in Camelot Hills\n" +
                                     "[Snowdonia Fortress] in Black Mtns. North\n" +
-                                    "[Avalon Marsh]\n" +
-                                    "[Prydwen Keep] (Levels 15-19)\n" +
-                                    "[Cear Ulfwych] (Levels 20-24)\n" +
-                                    "[Campacorentin Station] (Levels 25-29)\n" +
-                                    "[Adribard's Retreat] (Levels 30-34)\n" +
-                                    "[Snowdonia] (Levels 35+)\n" +
-                                    "[Cornwall] (Levels 45+)\n" +
-                                    "[Dartmoor] (Levels 45+)\n" +
-                                    "[Lyonesse] (Levels 45+)\n" +
-                                    "[Caldey] (Levels 50+)\n" +
-                                    "[Darkness Fall]\n" +
+                                    "[Avalon Marsh] wharf\n" +
                                     "[Gothwaite Harbor] in the [Shrouded Isles]\n" +
+                                    "[Oceanus] haven in the lost lands of Atlantis\n" +
                                     "[The Inconnu Crypt] in the Catacombs\n" +
                                     "[Camelot] our glorious capital\n" +
-                                    "[Oceanus]\n" +
-                                    "[Volcanus]\n" +
-                                    "[Stygian]\n" +
-                                    "Haven of [Aerus]\n" +
-                                    "[Entrance] to the areas of [Housing]");
+                                    "[Entrance] to the areas of [Housing]\n" +
+                                    "A [Battleground] appropriate to your season\n\n" +
+                                    "Or one of the many [towns] throughout Albion");
+                    if (player.Level < 15) // Add server rule check for tutorial
+                    {
+                        SayTo(player, "You are also eligible for passage to [Holtham] in Constantine's Sound.");
+                    }
+                    else
+                    {
+                        // Add Check for Svarhamr
+                        SayTo(player, "In addition to the other locations to which you may travel, you are eligible to teleport to the [NEEDALB], the Svartalf village in Malmohus.");
+                    }
                     break;
-/*
-                                    "[Uppland] in the Frontiers\n" +
-                                    "[Blendrake Faste] in the Frontiers\n" +
-                                    "[alb] side of Agramon in the Frontiers\n" +
-                                    "[hib] side of Agramon in the Frontiers\n" +
-                                    "[mid] side of Agramon in the Frontiers\n" +
 
-									"[Thidranki] the Battleground\n" +
-*/					
                 case eRealm.Midgard:
                     SayTo(player, "Greetings, I am able to channel energy to transport you to distant lands. I can send you to the following locations:\n" +
-                                    "[New Frontiers] the Battleground\n" +
-                                    "[Agramon] the dragon's world\n" +
-                                    "[Mularn] \n" +
-                                    "[Darkness Fall]\n" +
-                                    "[Tuscaran Glacier]\n" +
+                                    "[Uppland] in the Frontiers\n" +
                                     "[Svasud Faste] in Mularn\n" +
                                     "[Vindsaul Faste] in West Svealand\n" +
                                     "Beaches of [Gotar] near Nailiten\n" +
-                                    "[Spindelhalla]\n" +
-                                        "[Fort Veldon] (Levels 15-19)\n" +
-                                        "[Audliten] (Levels 20-24)\n" +
-                                        "[Huginfel] (Levels 25-290\n" +
-                                        "[Fort Atla] (Levels 30-34)\n" +
-                                        "[Vindsaul Faste] (Levels 35+)" +
-                                        "[Gna Faste] Gna Faste" +
-                                        "[Malmohus] Malmohus" +
                                     "[Aegirhamn] in the [Shrouded Isles]\n" +
+                                    "[Oceanus] Haven in the lost land of Atlantis\n" +
                                     "[Kobold Undercity] in the Catacombs\n" +
-                                    "[Oceanus]\n" +
-                                    "[Volcanus]\n" +
-                                    "[Stygian] delta\n" +
-                                    "Haven of [Aerus]\n" +
-                                    "Our glorious city of [Jordheim]");
+                                    "Our glorious city of [Jordheim]\n" +
+                                    "[Entrance] to the areas of [Housing]\n" +
+                                    "A [Battleground] appropriate to your season\n\n" +
+                                    "Or one of the many [towns] throughout Midgard");
+                    if (player.Level < 15) // Add server rule check for tutorial
+                    {
+                        SayTo(player, "You are also eligible for passage to [Hafheim] in Grenlock's Sound.");
+                    }
+                    else
+                    {
+                        // Add Check for Svarhamr
+                        SayTo(player, "In addition to the other locations to which you may travel, you are eligible to teleport to the [Svarhamr], the Svartalf village in Malmohus.");
+                    }
                     break;
-/*
-                                    "[Cruachan Gorge] in the Frontiers\n" +
-                                    "[Dun Bolg] in the Frontiers\n" +
-                                    "[alb] side of Agramon in the Frontiers\n" +
-                                    "[hib] side of Agramon in the Frontiers\n" +
-                                    "[mid] side of Agramon in the Frontiers\n" +
-*/
+
                 case eRealm.Hibernia:
                     SayTo(player, "Greetings, I am able to channel energy to transport you to distant lands. I can send you to the following locations:\n" +
-                                    "[New Frontiers] the Battleground\n" +
-                                    "[Agramon] the dragon's world\n" +
-                                    "[Lough Derg]\n" +
+                                    "[Cruachan Gorge] in the Frontiers\n" +
                                     "[Druim Ligen] in Connacht or [Druim Cain] in Bri Leith\n" +
                                     "[Shannon Estuary] watchtower\n" +
-									"[Mag Mell] (Levels 10-14)\n" +
-									"[Tir na mBeo] (Levels 15-19)\n" +
-									"[Ardagh] (Levels 20-24)\n" +
-									"[Howth] (Levels 25-29)\n" +
-									"[Connla] (Levels 30-24)\n" +
-									"[Druim Cain] (Levels 35+)\n" +
                                     "[Domnann] Grove in the [Shrouded Isles]\n" +
+                                    "[Oceanus] heaven in the lost land of Atlantis\n" +
                                     "[Shar Labyrinth] in the Catacombs\n" +
                                     "[Tir na Nog] our glorious capital\n" +
                                     "[Entrance] to the areas of [Housing]\n" +
-                                    "[Oceanus]\n" +
-                                    "[Volcanus]\n" +
-                                    "[Stygian]\n" +
-                                    "Haven of [Aerus]\n" +
-                                    "[Darkness Fall]\n" +
-                                    "[Galladoria] \n" +
-                                    "[Coruscating Mine] \n" +
-                                    "[Dragon Lair]");
+                                    "A [Battleground] appropriate to your season\n\n" +
+                                    "Or one of the many [towns] throughout Hibernia");
+                    if (player.Level < 15) // Add server rule check for tutorial
+                    {
+                        SayTo(player, "You are also eligible for passage to [Fintain] in Lamfhota's Sound.");
+                    }
+                    else
+                    {
+                        // Add Check for Azure refuge
+                        SayTo(player,"In adition to the other locations to which you may travel, you are eligible to teleport to the Azure refuge [Tailtiu] in Sheeroe Hills.");
+                    }
                     break;
 
                 default:
@@ -229,8 +148,6 @@ namespace DOL.GS.Scripts
 
         public override bool WhisperReceive(GameLiving source, string str) // What to do when a player whispers me
         {
-			bool bMultiple=false;
-
             if (!base.WhisperReceive(source, str)) return false;
             if (!(source is GamePlayer)) return false;
             GamePlayer t = (GamePlayer)source;
@@ -246,207 +163,6 @@ namespace DOL.GS.Scripts
                     switch (str.ToLower())
                     {
                         //Begin Main
-                        case "thidranki":
-
-			/*				foreach (GameClient cln in WorldMgr.GetAllClients())
-							{
-								if (cln != null && t.Client != cln)
-								{
-									if (cln.TcpEndpointAddress == t.Client.TcpEndpointAddress 
-									&& cln.Player.Level==50 && (cln.Player.CurrentRegionID==163 || cln.Player.CurrentRegionID==238 || cln.Player.CurrentRegionID==249))
-									{
-										Say("Only one client can go to the area of Battleground.");
-										bMultiple=true;
-										break;
-									}
-								}
-							}
-							if (t.Client.Player.CharacterClass.ID==12
-							|| t.Client.Player.CharacterClass.ID==33 
-							|| t.Client.Player.CharacterClass.ID==30
-							|| t.Client.Player.CharacterClass.ID==34
-							|| t.Client.Player.CharacterClass.ID==59
-							|| t.Client.Player.CharacterClass.ID==55
-							|| t.Client.Player.CharacterClass.ID==39
-							|| t.Client.Player.CharacterClass.ID==58)
-							{
-								Say("Your class is not allowed to enter the area of battleground.");
-								bMultiple=true;
-							}
-							if (bMultiple) break;
-		*/			
-						
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to the Thidranki Faste");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-									
-                                t.MoveTo(238,563424,573936,5408,2082);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "agramon":
-                        case "new frontiers":
-					/*		if (t.Client.Player.CharacterClass.ID==12
-							|| t.Client.Player.CharacterClass.ID==33 
-							|| t.Client.Player.CharacterClass.ID==30
-							|| t.Client.Player.CharacterClass.ID==34
-							|| t.Client.Player.CharacterClass.ID==59
-							|| t.Client.Player.CharacterClass.ID==55
-							|| t.Client.Player.CharacterClass.ID==39
-							|| t.Client.Player.CharacterClass.ID==58)
-							{
-								Say("Your class is not allowed to enter the area of battleground.");
-								bMultiple=true;
-							}
-							if (bMultiple) break;
-					*/
-						
-                            if (!t.InCombat)
-                            {
-								if (str.ToLower()=="agramon")
-								{
-									Say("I'm now teleporting you to the Agramon");
-									foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-										player.Out.SendSpellCastAnimation(this, 4953, 6);
-									t.MoveTo(163,547505,481395,9122,2090);
-								}
-								if (str.ToLower()=="new frontiers")
-								{
-									Say("I'm now teleporting you to the New Frontiers");
-									foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-										player.Out.SendSpellCastAnimation(this, 4953, 6);
-									t.MoveTo(163,478141,595732,8368,2090);
-								}
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-							
-                        case "alb":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to the Albion side of Agramon");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-									
-								Random r= new Random();
-                                t.MoveTo(163, 551939+r.Next(-800,800), 488656+r.Next(-800,800), 9000, 3821);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "hib":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to the Hibernia side of Agramon");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-								Random r= new Random();
-                                t.MoveTo(163, 495622+r.Next(-800,800), 488810+r.Next(-800,800), 9000, 331);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "mid":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to the Midgard side of Agramon");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
- 								Random r= new Random();
-                                t.MoveTo(163, 526828+r.Next(-800,800), 428902+r.Next(-800,800), 9000, 2139);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-
-						case "caer erasleign":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Caer Erasleign");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-                                t.MoveTo(163, 572388, 546551, 8232, 2336);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-						case "dartmoor":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Dartmoor");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-                                t.MoveTo(1, 403723, 749747, 200, 3541);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-						case "lyonesse":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Lyonesse");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-                                t.MoveTo(1, 324612, 685043, 2767, 934);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-						case "caldey":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Caldey");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-                                t.MoveTo(51, 318617, 368011, 5299, 306);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-
-						case "cornwall":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Cornwall");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-                                t.MoveTo(1, 369968, 679328, 5558, 2815);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "darkness fall":
-/*							foreach (GameClient cln in WorldMgr.GetAllClients())
-							{
-								if (cln != null && t.Client != cln)
-								{
-									if (cln.TcpEndpointAddress == t.Client.TcpEndpointAddress 
-									&& cln.Player.Level==50 && (cln.Player.CurrentRegionID==163 || cln.Player.CurrentRegionID==238 || cln.Player.CurrentRegionID==249))
-									{
-										Say("Only one client can go to the area of Battleground.");
-										bMultiple=true;
-										break;
-									}
-								}
-							}
-*/							
-/*							if (t.Client.Player.CharacterClass.ID==12
-							|| t.Client.Player.CharacterClass.ID==33 
-							|| t.Client.Player.CharacterClass.ID==30
-							|| t.Client.Player.CharacterClass.ID==34
-							|| t.Client.Player.CharacterClass.ID==59
-							|| t.Client.Player.CharacterClass.ID==55
-							|| t.Client.Player.CharacterClass.ID==39
-							|| t.Client.Player.CharacterClass.ID==58)
-							{
-								Say("Your class is not allowed to enter the area of battleground.");
-								bMultiple=true;
-							}
-							if (bMultiple) break;
-*/
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to the enterance of Darkness Fall");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-                                t.MoveTo(249, 31833, 27720, 22893, 3064);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
                         case "forest sauvage":
                             if (!t.InCombat)
                             {
@@ -509,53 +225,10 @@ namespace DOL.GS.Scripts
                             }
                             else
                             {
-                                Say("I'm now teleporting you to Atlantis.");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(73, 271106, 540313, 8344, 240);
+                                SayTo(t, "Oceanus is not availible at the momment.");
                             }
                             break;
                             //End add
-                        case "volcanus":
-                            if (ServerProperties.Properties.ATLANTIS_TELEPORT_PLVL > 1 && t.Client.Account.PrivLevel == (uint)ePrivLevel.Player)
-                            {
-                                SayTo(t, "Atlantis Zones are disabled.");
-                            }
-                            else
-                            {
-                                Say("I'm now teleporting you to Volcanus.");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(73, 447602, 551477, 8588, 1039);
-                            }
-                            break;
-                          case "stygian":
-                            if (ServerProperties.Properties.ATLANTIS_TELEPORT_PLVL > 1 && t.Client.Account.PrivLevel == (uint)ePrivLevel.Player)
-                            {
-                                SayTo(t, "Atlantis Zones are disabled.");
-                            }
-                            else
-                            {
-                                Say("I'm now teleporting you to Stygian.");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(73, 331751, 451325, 8140, 1014);
-                            }
-                            break;
-                          case "aerus":
-                            if (ServerProperties.Properties.ATLANTIS_TELEPORT_PLVL > 1 && t.Client.Account.PrivLevel == (uint)ePrivLevel.Player)
-                            {
-                                SayTo(t, "Atlantis Zones are disabled.");
-                            }
-                            else
-                            {
-                                Say("I'm now teleporting you to Haven of Aerus.");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(73, 387974, 650360, 8104, 3829);
-                            }
-                            break;
-                          //End add
 
                         case "the inconnu crypt":
                             if (!t.InCombat)
@@ -822,139 +495,6 @@ namespace DOL.GS.Scripts
                 case eRealm.Midgard:
                     switch (str.ToLower())
                     {
-
-                      case "spindelhalla":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Spindelhalla");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-									
-                                t.MoveTo(125,29529,30987,14984,3923);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-						case "agramon":
-                        case "new frontiers":
-/*
-							if (t.Client.Player.CharacterClass.ID==12
-							|| t.Client.Player.CharacterClass.ID==33 
-							|| t.Client.Player.CharacterClass.ID==30
-							|| t.Client.Player.CharacterClass.ID==34
-							|| t.Client.Player.CharacterClass.ID==59
-							|| t.Client.Player.CharacterClass.ID==55
-							|| t.Client.Player.CharacterClass.ID==39
-							|| t.Client.Player.CharacterClass.ID==58)
-							{
-								Say("Your class is not allowed to enter the area of battleground.");
-								bMultiple=true;
-							}
-							if (bMultiple) break;
-					*/
-						
-                            if (!t.InCombat)
-                            {
-								if (str.ToLower()=="agramon")
-								{
-									Say("I'm now teleporting you to the Agramon");
-									foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-										player.Out.SendSpellCastAnimation(this, 4953, 6);
-									t.MoveTo(163,525117,438744,9107,2090);
-								}
-								if (str.ToLower()=="new frontiers")
-								{
-									Say("I'm now teleporting you to the New Frontiers");
-									foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-										player.Out.SendSpellCastAnimation(this, 4953, 6);
-										
-									t.MoveTo(163,475812,543870,8232,4016);
-								}
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-
-						case "thidranki":
-	/*						foreach (GameClient cln in WorldMgr.GetAllClients())
-							{
-								if (cln != null && t.Client != cln)
-								{
-									if (cln.TcpEndpointAddress == t.Client.TcpEndpointAddress 
-									&& cln.Player.Level==50 && (cln.Player.CurrentRegionID==163 || cln.Player.CurrentRegionID==238 || cln.Player.CurrentRegionID==249))
-									{
-										Say("Only one client can go to the area of Battleground.");
-										bMultiple=true;
-										break;
-									}
-								}
-							}
-							if (t.Client.Player.CharacterClass.ID==12
-							|| t.Client.Player.CharacterClass.ID==33 
-							|| t.Client.Player.CharacterClass.ID==30
-							|| t.Client.Player.CharacterClass.ID==34
-							|| t.Client.Player.CharacterClass.ID==59
-							|| t.Client.Player.CharacterClass.ID==55
-							|| t.Client.Player.CharacterClass.ID==39
-							|| t.Client.Player.CharacterClass.ID==58)
-							{
-								Say("Your class is not allowed to enter the area of battleground.");
-								bMultiple=true;
-							}
-							if (bMultiple) break;
-*/
-							if (!t.InCombat)
-						{
-							Say("I'm now teleporting you to the Thidranki Faste");
-							foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-								player.Out.SendSpellCastAnimation(this, 4953, 6);
-								
-							t.MoveTo(238,569960,540818,5408,4071);
-						}
-						else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-						break;
-                      case "alb":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to the Albion side of Agramon");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-									
-								Random r= new Random();
-                                t.MoveTo(163, 551939+r.Next(-800,800), 488656+r.Next(-800,800), 9000, 3821);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "hib":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to the Hibernia side of Agramon");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-								Random r= new Random();
-                                t.MoveTo(163, 495622+r.Next(-800,800), 488810+r.Next(-800,800), 9000, 331);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "mid":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to the Midgard side of Agramon");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
- 								Random r= new Random();
-                                t.MoveTo(163, 526828+r.Next(-800,800), 428902+r.Next(-800,800), 9000, 2139);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "blendrake faste":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Blendrake Faste");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-                                t.MoveTo(163, 600913, 410121, 8280, 4);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
                         case "uppland":
                             if (!t.InCombat)
                             {
@@ -975,76 +515,7 @@ namespace DOL.GS.Scripts
                             }
                             else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
                             break;
-						case "gna faste":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to gna faste");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(100, 787779, 904748, 4744, 248);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "malmohus":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Malmohus");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(100, 730696, 971179, 4520, 2497);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-						case "darkness fall":
-/*							foreach (GameClient cln in WorldMgr.GetAllClients())
-							{
-								if (cln != null && t.Client != cln)
-								{
-									if (cln.TcpEndpointAddress == t.Client.TcpEndpointAddress 
-									&& cln.Player.Level==50 && (cln.Player.CurrentRegionID==163 || cln.Player.CurrentRegionID==238 || cln.Player.CurrentRegionID==249))
-									{
-										Say("Only one client can go to the area of Battleground.");
-										bMultiple=true;
-										break;
-									}
-								}
-							}
-*/
-/*							if (t.Client.Player.CharacterClass.ID==12
-							|| t.Client.Player.CharacterClass.ID==33 
-							|| t.Client.Player.CharacterClass.ID==30
-							|| t.Client.Player.CharacterClass.ID==34
-							|| t.Client.Player.CharacterClass.ID==59
-							|| t.Client.Player.CharacterClass.ID==55
-							|| t.Client.Player.CharacterClass.ID==39
-							|| t.Client.Player.CharacterClass.ID==58)
-							{
-								Say("Your class is not allowed to enter the area of battleground.");
-								bMultiple=true;
-							}
-							if (bMultiple) break;
-*/
-							if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Darkness Fall");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(249, 17677, 18484, 22893, 915);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-						case "tuscaran glacier":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Tuscaran Glacier");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(160, 35044, 18069, 18864, 1034);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-
-						case "vindsaul faste":
+                        case "vindsaul faste":
                             if (!t.InCombat)
                             {
                                 Say("I'm now teleporting you to Vindsaul Faste");
@@ -1074,52 +545,9 @@ namespace DOL.GS.Scripts
                             }
                             else
                             {
-                                Say("I'm now teleporting you to Atlantis.");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(30, 271106, 540313, 8344, 240);
+                                SayTo(t, "Oceanus not availible at this time.");
                             }
                             break;
-                        case "volcanus":
-                            if (ServerProperties.Properties.ATLANTIS_TELEPORT_PLVL > 1 && t.Client.Account.PrivLevel == (uint)ePrivLevel.Player)
-                            {
-                                SayTo(t, "Atlantis Zones are disabled.");
-                            }
-                            else
-                            {
-                                Say("I'm now teleporting you to Volcanus.");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(30, 447602, 551477, 8588, 1039);
-                            }
-                            break;
-                        case "stygian":
-                            if (ServerProperties.Properties.ATLANTIS_TELEPORT_PLVL > 1 && t.Client.Account.PrivLevel == (uint)ePrivLevel.Player)
-                            {
-                                SayTo(t, "Atlantis Zones are disabled.");
-                            }
-                            else
-                            {
-                                Say("I'm now teleporting you to Stygian.");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(30, 331751, 451325, 8140, 1014);
-                            }
-                            break;
-                          case "aerus":
-                            if (ServerProperties.Properties.ATLANTIS_TELEPORT_PLVL > 1 && t.Client.Account.PrivLevel == (uint)ePrivLevel.Player)
-                            {
-                                SayTo(t, "Atlantis Zones are disabled.");
-                            }
-                            else
-                            {
-                                Say("I'm now teleporting you to Haven of Aerus.");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(30, 387974, 650360, 8104, 3829);
-                            }
-                            break;
-							
                         case "kobold undercity":
                             SayTo(t, "Kobold Undercity not availible at this thime..");
                             break;
@@ -1373,219 +801,6 @@ namespace DOL.GS.Scripts
                 case eRealm.Hibernia:
                     switch (str.ToLower())
                     {
-						case "agramon":
-                        case "new frontiers":
-
-	/*						foreach (GameClient cln in WorldMgr.GetAllClients())
-							{
-								if (cln != null && t.Client != cln)
-								{
-									if (cln.TcpEndpointAddress == t.Client.TcpEndpointAddress 
-									&& cln.Player.Level==50 && (cln.Player.CurrentRegionID==163 || cln.Player.CurrentRegionID==238 || cln.Player.CurrentRegionID==249))
-									{
-										Say("Only one client can go to the area of Battleground.");
-										bMultiple=true;
-										break;
-									}
-								}
-							}
-							
-							if (t.Client.Player.CharacterClass.ID==12
-							|| t.Client.Player.CharacterClass.ID==33 
-							|| t.Client.Player.CharacterClass.ID==30
-							|| t.Client.Player.CharacterClass.ID==34
-							|| t.Client.Player.CharacterClass.ID==59
-							|| t.Client.Player.CharacterClass.ID==55
-							|| t.Client.Player.CharacterClass.ID==39
-							|| t.Client.Player.CharacterClass.ID==58)
-							{
-								Say("Your class is not allowed to enter the area of battleground.");
-								bMultiple=true;
-							}
-							if (bMultiple) break;
-*/					
-						
-                            if (!t.InCombat)
-                            {
-								if (str.ToLower()=="agramon")
-								{
-									Say("I'm now teleporting you to the Agramon");
-									foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-										player.Out.SendSpellCastAnimation(this, 4953, 6);
-									t.MoveTo(163,505665,479293,8954,2090);
-								}
-								if (str.ToLower()=="new frontiers")
-								{
-									Say("I'm now teleporting you to the New Frontiers");
-									foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-										player.Out.SendSpellCastAnimation(this, 4953, 6);
-										
-									t.MoveTo(163,411704,607815,8496,4052);
-								}
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-							
-						case "thidranki":
-	/*						foreach (GameClient cln in WorldMgr.GetAllClients())
-							{
-								if (cln != null && t.Client != cln)
-								{
-									if (cln.TcpEndpointAddress == t.Client.TcpEndpointAddress 
-									&& cln.Player.Level==50 && (cln.Player.CurrentRegionID==163 || cln.Player.CurrentRegionID==238 || cln.Player.CurrentRegionID==249))
-									{
-										Say("Only one client can go to the area of Battleground.");
-										bMultiple=true;
-										break;
-									}
-								}
-							}
-							if (t.Client.Player.CharacterClass.ID==12
-							|| t.Client.Player.CharacterClass.ID==33 
-							|| t.Client.Player.CharacterClass.ID==30
-							|| t.Client.Player.CharacterClass.ID==34
-							|| t.Client.Player.CharacterClass.ID==59
-							|| t.Client.Player.CharacterClass.ID==55
-							|| t.Client.Player.CharacterClass.ID==39
-							|| t.Client.Player.CharacterClass.ID==58)
-							{
-								Say("Your class is not allowed to enter the area of battleground.");
-								bMultiple=true;
-							}
-							if (bMultiple) break;
-*/
-							if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to the Thidranki Faste");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-									
-                                t.MoveTo(238,534079,534253,5408,3657);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "alb":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to the Albion side of Agramon");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-									
-								Random r= new Random();
-                                t.MoveTo(163, 551939+r.Next(-800,800), 488656+r.Next(-800,800), 9000, 3821);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "hib":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to the Hibernia side of Agramon");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-								Random r= new Random();
-                                t.MoveTo(163, 495622+r.Next(-800,800), 488810+r.Next(-800,800), 9000, 331);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "mid":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to the Midgard side of Agramon");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
- 								Random r= new Random();
-                                t.MoveTo(163, 526828+r.Next(-800,800), 428902+r.Next(-800,800), 9000, 2139);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "dun bolg":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Dun Bolg");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 6);
-                                t.MoveTo(163, 475809, 544895, 8232, 4022);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "galladoria":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Galladoria");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(191, 31956, 29586, 17059, 4047);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "darkness fall":
-/*							foreach (GameClient cln in WorldMgr.GetAllClients())
-							{
-								if (cln != null && t.Client != cln)
-								{
-									if (cln.TcpEndpointAddress == t.Client.TcpEndpointAddress 
-									&& cln.Player.Level==50 && (cln.Player.CurrentRegionID==163 || cln.Player.CurrentRegionID==238 || cln.Player.CurrentRegionID==249))
-									{
-										Say("Only one client can go to the area of Battleground.");
-										bMultiple=true;
-										break;
-									}
-								}
-							}
-*/							
-				/*			if (t.Client.Player.CharacterClass.ID==12
-							|| t.Client.Player.CharacterClass.ID==33 
-							|| t.Client.Player.CharacterClass.ID==30
-							|| t.Client.Player.CharacterClass.ID==34
-							|| t.Client.Player.CharacterClass.ID==59
-							|| t.Client.Player.CharacterClass.ID==55
-							|| t.Client.Player.CharacterClass.ID==39
-							|| t.Client.Player.CharacterClass.ID==58)
-							{
-								Say("Your class is not allowed to enter the area of battleground.");
-								bMultiple=true;
-							}
-							if (bMultiple) break;
-*/
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Darkness Fall");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(249, 46370, 40574, 21357, 2056);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "cursed forest":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Cursed Forest");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(200, 501646, 502816, 5002, 4011);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-						case "dragon lair":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Dragon Lair");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(200, 404353, 657098, 4755, 1903);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
-                        case "coruscating mine":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to coruscating mine");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(220, 33717, 33682, 16085, 1092);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
                         case "cruachan gorge":
                             if (!t.InCombat)
                             {
@@ -1616,17 +831,6 @@ namespace DOL.GS.Scripts
                             }
                             else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
                             break;
-							
-                        case "lough derg":
-                            if (!t.InCombat)
-                            {
-                                Say("I'm now teleporting you to Lough Derg.");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(200, 347757, 490841, 5215, 2471);
-                            }
-                            else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
-                            break;
                         case "domnann":
                             if (!t.InCombat)
                             {
@@ -1647,52 +851,9 @@ namespace DOL.GS.Scripts
                             }
                             else
                             {
-                                Say("I'm now teleporting you to Atlantis.");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(130, 271106, 540313, 8344, 240);
+                                SayTo(t, "Oceanus is not availible at this time.");
                             }
                             break;
-                        case "volcanus":
-                            if (ServerProperties.Properties.ATLANTIS_TELEPORT_PLVL > 1 && t.Client.Account.PrivLevel == (uint)ePrivLevel.Player)
-                            {
-                                SayTo(t, "Atlantis Zones are disabled.");
-                            }
-                            else
-                            {
-                                Say("I'm now teleporting you to Volcanus.");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(130, 447602, 551477, 8588, 1039);
-                            }
-                            break;
-                        case "stygian":
-                            if (ServerProperties.Properties.ATLANTIS_TELEPORT_PLVL > 1 && t.Client.Account.PrivLevel == (uint)ePrivLevel.Player)
-                            {
-                                SayTo(t, "Atlantis Zones are disabled.");
-                            }
-                            else
-                            {
-                                Say("I'm now teleporting you to Stygian.");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(130, 331751, 451325, 8140, 1014);
-                            }
-                            break;
-                          case "aerus":
-                            if (ServerProperties.Properties.ATLANTIS_TELEPORT_PLVL > 1 && t.Client.Account.PrivLevel == (uint)ePrivLevel.Player)
-                            {
-                                SayTo(t, "Atlantis Zones are disabled.");
-                            }
-                            else
-                            {
-                                Say("I'm now teleporting you to Haven of Aerus.");
-                                foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
-                                    player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(130, 387974, 650360, 8104, 3829);
-                            }
-                            break;
-							
                         case "shar labyrinth":
                             if (!t.InCombat)
                             {
