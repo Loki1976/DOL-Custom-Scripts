@@ -501,7 +501,7 @@ namespace DOL.GS.Scripts
                                 Say("I'm now teleporting you to Uppland");
                                 foreach (GamePlayer player in this.GetPlayersInRadius(WorldMgr.VISIBILITY_DISTANCE))
                                     player.Out.SendSpellCastAnimation(this, 4953, 3);
-                                t.MoveTo(163, 651422, 314838, 9432, 1807);
+                                t.MoveTo(163, 597472, 304485, 8088, 4084);
                             }
                             else { t.Client.Out.SendMessage("You can't port while in combat.", eChatType.CT_Say, eChatLoc.CL_PopupWindow); }
                             break;
