@@ -51,7 +51,7 @@ namespace DOL.GS.Scripts
 
         public override eQuestIndicator GetQuestIndicator(GamePlayer player)
         {
-            if (player.Level == 5) return eQuestIndicator.Available;
+            if (player.Level == 1) return eQuestIndicator.Available;
             return eQuestIndicator.None;
         }
 
@@ -63,21 +63,15 @@ namespace DOL.GS.Scripts
                 return false;
 
 
-            if (player.Level != 5)
+           if (player.Level != 1)
             {
-                if (player.Level > 5)
-                {
-                    SayTo(player, "Sorry you are already level 5!.");
-                }
-                if (player.Level < 5)
-                {
-                    SayTo(player, "You must gain level 5 before being able to use this NPC!");
-                }
+                SayTo(player, "Hello!  You must be a new level one character to use my services, sorry.");
+                return false;
             }
-
+			
             if (base.Interact(player))
             {
-                SayTo(player, "Hello! Since you are now level 5 you may choose your class! And continue to be a great adventurer! Also since i take away all of your armor I will give you 50g to go craft with!");
+                SayTo(player, "Hello! you may choose your class! And continue to be a great adventurer! Also since i take away all of your armor I will give you 50g to go craft with!");
                 SayTo(player, "Beware, once a choice is made your new class will be set and you will be logged out of the game.  You can then return as your new class!");
 
                 int column = 0;
