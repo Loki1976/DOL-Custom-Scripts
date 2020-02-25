@@ -103,7 +103,7 @@ namespace DOL.GS.Scripts
                 {
                         GamePlayer player = source as GamePlayer;
 
-                        if (player == null || player.Level != 5)
+                        if (player == null || player.Level != 1)
                                 return false;
 
                         if (base.WhisperReceive(source, text))
